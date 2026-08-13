@@ -19,6 +19,8 @@ const chain = () => {
     // zoom / drag
     scaleExtent: () => obj, translateExtent: () => obj,
     transform: () => obj,
+    // D3 v4/v5 enter/exit pattern
+    enter: () => obj, exit: () => obj,
     // scale
     domain: () => obj, range: () => obj, padding: () => obj,
     // transition
