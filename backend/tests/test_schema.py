@@ -10,5 +10,5 @@ def test_schema_endpoint(client):
     resp = client.get("/api/v1/schema")
     assert resp.status_code == 200
     data = resp.json()["data"]
-    assert len(data["entity_types"]) == 16
+    assert len(data["entity_types"]) == 17
     assert len(data["relationship_types"]) == 17

@@ -172,7 +172,7 @@ def _build_docx_from_narrative(
 ) -> bytes:
     """Wrap the LLM narrative prose in a styled Word document."""
     from docx import Document
-    from docx.shared import Pt, RGBColor, Inches
+    from docx.shared import Pt, RGBColor
     from docx.enum.text import WD_ALIGN_PARAGRAPH
 
     doc = Document()
@@ -229,7 +229,7 @@ def _build_docx_from_kg(
 ) -> bytes:
     """Build a structured teaching dossier directly from Q1–Q4 KG data."""
     from docx import Document
-    from docx.shared import Pt, RGBColor, Inches
+    from docx.shared import Pt, RGBColor
     from docx.enum.text import WD_ALIGN_PARAGRAPH
 
     doc = Document()

@@ -1,5 +1,6 @@
 """LLM generation pipeline — D-18 §III.4."""
-import hashlib, time
+import hashlib
+import time
 from pathlib import Path
 from datetime import datetime, timezone
 from typing import Literal

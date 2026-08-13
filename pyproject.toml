@@ -1,0 +1,7 @@
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+# E701/E702: semicolons / multiple statements on one line — intentional compact
+# style in Pydantic enum/model definitions in responses.py.
+ignore = ["E701", "E702"]

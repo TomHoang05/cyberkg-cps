@@ -57,7 +57,7 @@ def _resolve_cypher_file(override: Path | None = None) -> Path:
         if path and path.exists():
             return path
     raise FileNotFoundError(
-        f"CYB-14 cypher file not found. Tried:\n"
+        "CYB-14 cypher file not found. Tried:\n"
         + "\n".join(f"  {p}" for p in candidates)
     )
 

@@ -14,7 +14,7 @@ Source: CYB-26 §8.2 + §8.3
 from fastapi import APIRouter, Depends, HTTPException, Query
 from neo4j import Driver
 
-from src.api.attack_id_map import SLUG_TO_ATTACK_ID, SLUG_TO_NAME, resolve_attack_id
+from src.api.attack_id_map import SLUG_TO_ATTACK_ID, resolve_attack_id
 from src.api.config import LLMConfig
 from src.api.dependencies import get_driver, get_llm_config
 from src.api.models.responses import AudienceType

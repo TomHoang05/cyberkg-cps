@@ -62,13 +62,13 @@ class TestHealth:
 
 
 class TestSchema:
-    """GET /schema returns 16 entity types and 17 relationship types."""
+    """GET /schema returns 17 entity types and 17 relationship types."""
 
     def test_schema_entity_count(self, client):
         resp = client.get("/api/v1/schema")
         assert resp.status_code == 200
         data = resp.json()["data"]
-        assert len(data["entity_types"]) == 16
+        assert len(data["entity_types"]) == 17
 
     def test_schema_rel_count(self, client):
         resp = client.get("/api/v1/schema")

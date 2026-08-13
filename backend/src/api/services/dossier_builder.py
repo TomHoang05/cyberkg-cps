@@ -151,7 +151,7 @@ def _render_markdown(doc: Document, text: str) -> None:
 
             p = doc.add_paragraph()
             _add_inline(p, " ".join(block_lines))
-            prev_blank = False
+            prev_blank = False  # noqa: F841
 
         i += 1
 
