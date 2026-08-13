@@ -1,0 +1,612 @@
+# data/kg_data/schema/node_schema.yaml
+# Machine-readable schema for all 17 CyberKG-CPS node types
+# Source: CYB-14 v1.1, CYB-12 §III, CYB-25 §IV
+# MERGE keys listed here must match loader.py PRIMARY_KEYS exactly
+# evidence_class values: documented_fact | supported_inference | instructional_extension
+# confidence minimum: documented_fact >= 0.8 | supported_inference >= 0.6 | instructional_extension >= 0.0
+
+node_types:
+
+  # ── PLANE: CYBER ────────────────────────────────────────────────────────
+
+  Attack:
+    label: "Attack"
+    plane: "cyber"
+    merge_key: "attack_id"
+    required_fields:
+      - name: attack_id
+        type: string
+        pattern: "^ATK-[A-Z]+-\\d{3}$"
+        example: "ATK-COL-001"
+      - name: name
+        type: string
+      - name: year
+        type: integer
+      - name: nation_state
+        type: boolean
+      - name: industry_sector
+        type: string
+        enum: [pipeline, petrochemical, nuclear, steel_manufacturing]
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+      - name: confidence
+        type: float
+        min: 0.0
+        max: 1.0
+    optional_fields:
+      - name: description
+        type: string
+      - name: source
+        type: string
+      - name: source_id_or_url
+        type: string
+      - name: license
+        type: string
+    notes: "Root node for each attack case. One per case (ATK-COL-001, ATK-TRI-001, ATK-STX-001, ATK-GSM-001)."
+
+  ATT_CK_Technique:
+    label: "ATT_CK_Technique"
+    plane: "cyber"
+    merge_key: "mitre_id"
+    required_fields:
+      - name: mitre_id
+        type: string
+        pattern: "^T(0|1)\\d{3}(\\.\\d{3})?$"
+        example: "T1566.001"
+      - name: name
+        type: string
+      - name: tactic
+        type: string
+        enum: [initial-access, execution, persistence, privilege-escalation,
+               defense-evasion, credential-access, discovery, lateral-movement,
+               collection, command-and-control, exfiltration, impact,
+               inhibit-response-function, impair-process-control]
+      - name: platform
+        type: string
+        enum: [Enterprise, ICS]
+        notes: "Canonical values from MITRE ATT&CK — capitalized. Enterprise=T1xxx, ICS=T0xxx."
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+      - name: confidence
+        type: float
+        min: 0.0
+        max: 1.0
+    optional_fields:
+      - name: description
+        type: string
+      - name: url
+        type: string
+      - name: license
+        type: string
+    notes: >
+      MERGE key is mitre_id (external stable ID) — enables cross-case deduplication.
+      T0xxx = ATT&CK ICS (platform=ICS), T1xxx = ATT&CK Enterprise (platform=Enterprise).
+      Shared techniques (T1566.001, T0873, T0831)
+      appear in multiple case YAMLs but MERGE to ONE Neo4j node.
+      T0822 = Triton only; T1021 = Colonial only (lateral movement, per CYB-13 §VII).
+      (T0864/T0816 eliminated; T1078 = Colonial+GSM shared)
+
+  Vulnerability:
+    label: "Vulnerability"
+    plane: "cyber"
+    merge_key: "cve_id"
+    required_fields:
+      - name: cve_id
+        type: string
+        pattern: "^CVE-\\d{4}-\\d{4,}$"
+        example: "CVE-2010-2568"
+      - name: name
+        type: string
+      - name: cvss_v3
+        type: float
+        min: 0.0
+        max: 10.0
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+      - name: confidence
+        type: float
+        min: 0.0
+        max: 1.0
+    optional_fields:
+      - name: description
+        type: string
+      - name: source
+        type: string
+      - name: license
+        type: string
+    notes: "CVE identifier is MERGE key; shared CVEs across cases deduplicate."
+
+  Weakness:
+    label: "Weakness"
+    plane: "cyber"
+    merge_key: "cwe_id"
+    required_fields:
+      - name: cwe_id
+        type: string
+        pattern: "^CWE-\\d+$"
+        example: "CWE-20"
+      - name: name
+        type: string
+      - name: abstraction
+        type: string
+        enum: [Pillar, Class, Base, Variant, Compound]
+        notes: "CYB-12 §III: prefer Base level. granularity.py MAX_ABSTRACTION_LEVEL='Base'."
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+      - name: confidence
+        type: float
+        min: 0.0
+        max: 1.0
+    optional_fields:
+      - name: description
+        type: string
+      - name: license
+        type: string
+
+  Attack_Pattern:
+    label: "Attack_Pattern"
+    plane: "cyber"
+    merge_key: "capec_id"
+    required_fields:
+      - name: capec_id
+        type: string
+        pattern: "^CAPEC-\\d+$"
+        example: "CAPEC-163"
+      - name: name
+        type: string
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+      - name: confidence
+        type: float
+        min: 0.0
+        max: 1.0
+    optional_fields:
+      - name: description
+        type: string
+      - name: license
+        type: string
+
+  IT_System:
+    label: "IT_System"
+    plane: "cyber"
+    merge_key: "system_id"
+    required_fields:
+      - name: system_id
+        type: string
+        pattern: "^ITS-[A-Z0-9]+$"
+        example: "ITS-VPN"
+      - name: name
+        type: string
+      - name: system_type
+        type: string
+        enum: [vpn, ad, jump_host, workstation, email, server, firewall, historian]
+        notes: "Actual values used in data YAMLs. 'ad'=Active Directory, 'server'=generic C2/command server."
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+      - name: confidence
+        type: float
+        min: 0.0
+        max: 1.0
+    optional_fields:
+      - name: description
+        type: string
+      - name: vendor
+        type: string
+      - name: license
+        type: string
+    notes: "Some IT_System nodes are shared across cases (ITS-AD, ITS-JMP, ITS-EMAIL, ITS-C2)."
+
+  # ── PLANE: PHYSICAL ─────────────────────────────────────────────────────
+
+  OT_System:
+    label: "OT_System"
+    plane: "physical"
+    merge_key: "system_id"
+    required_fields:
+      - name: system_id
+        type: string
+        pattern: "^OTS-[A-Z0-9]+$"
+        example: "OTS-SIS"
+      - name: name
+        type: string
+      - name: system_type
+        type: string
+        enum: [plc, sis, scada, hmi, dcs, pipeline_scada, frequency_converter, ews]
+      - name: purdue_level
+        type: integer
+        min: 0
+        max: 5
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+      - name: confidence
+        type: float
+        min: 0.0
+        max: 1.0
+    optional_fields:
+      - name: description
+        type: string
+      - name: vendor
+        type: string
+      - name: model
+        type: string
+      - name: license
+        type: string
+
+  Network_Zone:
+    label: "Network_Zone"
+    plane: "physical"
+    merge_key: "zone_id"
+    required_fields:
+      - name: zone_id
+        type: string
+        pattern: "^NZ-[A-Z]+$"
+        example: "NZ-CTRL"
+      - name: name
+        type: string
+      - name: purdue_level
+        type: integer
+        min: 0
+        max: 5
+      - name: zone_type
+        type: string
+        enum: [internet, enterprise, dmz, control, field, pipeline]
+    optional_fields:
+      - name: description
+        type: string
+      - name: license
+        type: string
+    notes: "6 shared zones: NZ-INET, NZ-CORP, NZ-DMZ, NZ-CTRL, NZ-FIELD, NZ-PIPE. Defined once in shared/network_zones.yaml."
+
+  Physical_Process:
+    label: "Physical_Process"
+    plane: "physical"
+    merge_key: "process_id"
+    required_fields:
+      - name: process_id
+        type: string
+        pattern: "^PHY-[A-Z]+$"
+        example: "PHY-CENT"
+      - name: name
+        type: string
+      - name: proc_type
+        type: string
+        enum: [nuclear, chemical, pipeline, steel]
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+      - name: confidence
+        type: float
+        min: 0.0
+        max: 1.0
+    optional_fields:
+      - name: description
+        type: string
+      - name: license
+        type: string
+
+  Consequence:
+    label: "Consequence"
+    plane: "physical"
+    merge_key: "consequence_id"
+    required_fields:
+      - name: consequence_id
+        type: string
+        pattern: "^CON-[A-Z]+$"
+        example: "CON-SHUT"
+      - name: name
+        type: string
+      - name: consequence_type
+        type: string
+        enum: [direct_manipulation, indirect_disruption, safety_suppression, manipulation_of_view]
+      - name: severity
+        type: string
+        enum: [low, medium, high, critical]
+      - name: realized
+        type: boolean
+        notes: "true = actually occurred; false = intended but averted (e.g., CON-EXP in TRITON)"
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+      - name: confidence
+        type: float
+        min: 0.0
+        max: 1.0
+    optional_fields:
+      - name: description
+        type: string
+      - name: financial_impact_usd
+        type: integer
+      - name: financial_impact_eur
+        type: integer
+      - name: license
+        type: string
+
+  Bridge_Mechanism:
+    label: "Bridge_Mechanism"
+    plane: "physical"
+    merge_key: "bridge_id"
+    required_fields:
+      - name: bridge_id
+        type: string
+        pattern: "^BRG-[A-Z]+$"
+        example: "BRG-VPN"
+      - name: name
+        type: string
+      - name: bridge_type
+        type: string
+        enum: [authorized, unauthorized, air_gap, structural]
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+      - name: confidence
+        type: float
+        min: 0.0
+        max: 1.0
+    optional_fields:
+      - name: description
+        type: string
+      - name: table1_ref
+        type: string
+      - name: license
+        type: string
+    notes: >
+      Canonical examples: BRG-VPN (authorized, Colonial), BRG-EWS (unauthorized, TRITON),
+      BRG-USB (air_gap, Stuxnet), BRG-FLAT (structural, GSM).
+
+  # ── PLANE: AI ───────────────────────────────────────────────────────────
+
+  AI_Component:
+    label: "AI_Component"
+    plane: "ai"
+    merge_key: "ai_id"
+    required_fields:
+      - name: ai_id
+        type: string
+        pattern: "^AIC-[A-Z]+$"
+        example: "AIC-COL"
+      - name: name
+        type: string
+      - name: component_type
+        type: string
+        enum: [anomaly_detector, classifier, nlp_assistant, digital_twin, intrusion_detection]
+        notes: >
+          CANONICAL ENUM — CYB-12 §III.12. 'predictive_maintenance' is NOT valid.
+          granularity.py COMPONENT_TYPE_ENUM validates this at load time.
+      - name: is_hypothetical
+        type: boolean
+        notes: "All AI nodes in MVP dataset are hypothetical (is_hypothetical=true)."
+      - name: evidence_class
+        type: string
+        enum: [instructional_extension]
+        notes: "Always 'instructional_extension' for AI_Component nodes."
+      - name: confidence
+        type: float
+        const: 0.0
+        notes: "Always 0.0 for AI_Component nodes (hypothetical content)."
+    optional_fields:
+      - name: description
+        type: string
+      - name: license
+        type: string
+
+  AI_Attack_Surface:
+    label: "AI_Attack_Surface"
+    plane: "ai"
+    merge_key: "surface_id"
+    required_fields:
+      - name: surface_id
+        type: string
+        pattern: "^AIS-[A-Z]+$"
+        example: "AIS-PI"
+      - name: name
+        type: string
+      - name: surface_type
+        type: string
+        enum: [indirect_prompt_injection, physical_perturbation, domain_transfer, error_propagation]
+      - name: is_adversarial
+        type: boolean
+      - name: evidence_class
+        type: string
+        enum: [instructional_extension]
+      - name: confidence
+        type: float
+        const: 0.0
+    optional_fields:
+      - name: description
+        type: string
+      - name: aml_technique
+        type: string
+        pattern: "^AML\\.T\\d{4}$"
+      - name: table1_ref
+        type: string
+      - name: license
+        type: string
+    notes: >
+      4 canonical surfaces: AIS-PI (all 4 cases), AIS-PP (Stuxnet+TRITON+GSM, NOT Colonial),
+      AIS-DT (all 4 cases), AIS-EP (all 4 cases). Shared across case YAML files; MERGE on surface_id.
+
+  # ── PLANE: HUMAN ────────────────────────────────────────────────────────
+
+  Human_Actor:
+    label: "Human_Actor"
+    plane: "human"
+    merge_key: "actor_id"
+    required_fields:
+      - name: actor_id
+        type: string
+        pattern: "^HUM-[A-Z]+$"
+        example: "HUM-COL"
+      - name: name
+        type: string
+      - name: actor_type
+        type: string
+        enum: [operator, engineer, manager, employee]
+        notes: "Professional role. Strategic role (attacker/defender/victim) is on HUMAN_ROLE relationship."
+      - name: expertise_level
+        type: string
+        enum: [beginner, intermediate, advanced, expert]
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+      - name: confidence
+        type: float
+        min: 0.0
+        max: 1.0
+    optional_fields:
+      - name: description
+        type: string
+      - name: was_deceived
+        type: boolean
+      - name: detected_anomaly
+        type: boolean
+      - name: license
+        type: string
+
+  Human_Action:
+    label: "Human_Action"
+    plane: "human"
+    merge_key: "action_id"
+    required_fields:
+      - name: action_id
+        type: string
+        pattern: "^ACT-[A-Z]+$"
+        example: "ACT-COL"
+      - name: name
+        type: string
+      - name: action_type
+        type: string
+        enum: [mistake, detection, decision, social_engineering_target]
+      - name: outcome
+        type: string
+        enum: [attack_progressed, attack_detected, attack_contained]
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+      - name: confidence
+        type: float
+        min: 0.0
+        max: 1.0
+    optional_fields:
+      - name: description
+        type: string
+      - name: lesson
+        type: string
+      - name: license
+        type: string
+
+  # ── CROSS-CUTTING ────────────────────────────────────────────────────────
+
+  Instructional_Concept:
+    label: "Instructional_Concept"
+    plane: "cross_cutting"
+    merge_key: "concept_id"
+    required_fields:
+      - name: concept_id
+        type: string
+        pattern: "^IC-C\\d{2}$"
+        example: "IC-C11"
+      - name: name
+        type: string
+      - name: module_alignment
+        type: string
+        enum: [M1, M2, M3, M4]
+        notes: >
+          CANONICAL FIELD NAME is 'module_alignment', NOT 'module_id'.
+          M1=IT/OT Transition, M2=Physical Consequences, M3=AI Attack Surface, M4=AI Resilience.
+          M5 does NOT exist in CyberKG-CPS MVP.
+      - name: table1_ref
+        type: string
+        pattern: "^C\\d+\\.\\d+(,C\\d+\\.\\d+)*$"
+        example: "C1.1"
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+      - name: confidence
+        type: float
+        min: 0.0
+        max: 1.0
+    optional_fields:
+      - name: description
+        type: string
+      - name: license
+        type: string
+    notes: >
+      12 IC nodes total: IC-C11,C12,C13,C14 (M1), IC-C21,C22,C23,C24 (M2),
+      IC-C31,C32 (M3, evidence_class=instructional_extension, confidence=0.0),
+      IC-C41,C42 (M4, evidence_class=instructional_extension, confidence=0.0).
+      Defined once in shared/instructional_concepts.yaml.
+
+  Question:
+    label: "Question"
+    plane: "cross_cutting"
+    merge_key: "question_id"
+    sprint: 3
+    task_ref: "T046b"
+    required_fields:
+      - name: question_id
+        type: string
+        pattern: "^Q\\d{2,3}$"
+        example: "Q01"
+        notes: "Format: Q01–Q128. No leading zeros past Q09 (Q10, Q11, ..., Q128)."
+      - name: text
+        type: string
+      - name: user_role
+        type: string
+        enum: [instructor, student, security_researcher]
+      - name: bloom_level
+        type: string
+        enum: [L1, L2, L3, L4, L5, L6]
+        notes: "L1=remember, L2=understand, L3=apply, L4=analyze, L5=evaluate, L6=create"
+      - name: scenario_id
+        type: string
+        pattern: "^S\\d+(b)?$"
+        example: "S01"
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+      - name: confidence
+        type: float
+        min: 0.0
+        max: 1.0
+    optional_fields:
+      - name: answer_hint
+        type: string
+      - name: explanation
+        type: string
+      - name: related_q_ids
+        type: array
+        items:
+          type: string
+          pattern: "^Q\\d{2,3}$"
+      - name: table1_ref
+        type: string
+      - name: license
+        type: string
+    notes: >
+      Q-Bank: 128 questions Q01-Q128.
+      Distribution: ~31 instructor, ~68 student, ~29 security_researcher.
+      Scenarios: S01-S21 plus S09b.
+      Index: question_role_bloom_idx ON (q.user_role, q.bloom_level)
+      Fulltext: question_fulltext ON [q.text, q.explanation]
+
+# ── SUMMARY ──────────────────────────────────────────────────────────────
+metadata:
+  total_node_types: 17
+  by_plane:
+    cyber: [Attack, ATT_CK_Technique, Vulnerability, Weakness, Attack_Pattern, IT_System]
+    physical: [OT_System, Network_Zone, Physical_Process, Consequence, Bridge_Mechanism]
+    ai: [AI_Component, AI_Attack_Surface]
+    human: [Human_Actor, Human_Action]
+    cross_cutting: [Instructional_Concept, Question]
+  sprint_3_additions: [Question]
+  canonical_node_count_neo4j: 107
+  visualization_node_count_cyb15: 118
+  placeholder_nodes_not_in_data: [TEC_T0843, TEC_T0878]
+  source: "CYB-14 v1.1, CYB-12 §III, CYB-25 §IV, granularity.py"

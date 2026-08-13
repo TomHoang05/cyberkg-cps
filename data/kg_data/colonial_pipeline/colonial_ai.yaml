@@ -1,0 +1,64 @@
+# data/kg_data/colonial_pipeline/colonial_ai.yaml
+# Colonial Pipeline — AI Plane nodes
+# Source: CYB-15 v2.0, CYB-12 §III.12+13, CYB-17 v1.1
+# NOTE: AI_Component nodes here are HYPOTHETICAL (is_hypothetical: true)
+# component_type must be in canonical enum: anomaly_detector | classifier |
+#   nlp_assistant | digital_twin | intrusion_detection
+# AI_Attack_Surface nodes marked SHARED appear in all 4 case YAML files;
+#   MERGE key = surface_id ensures single Neo4j node.
+# MERGE keys: ai_id (AI_Component), surface_id (AI_Attack_Surface)
+
+nodes:
+
+  AI_Component:
+    - ai_id: "AIC-COL"
+      name: "Pipeline AI Intrusion Monitor"
+      component_type: "intrusion_detection"
+      is_hypothetical: true
+      description: "Hypothetical AI intrusion detection system that could have flagged DarkSide's lateral movement from VPN entry point across Colonial's IT network before ransomware deployment."
+      source: "CYB-15 v2.0 (instructional extension)"
+      source_id_or_url: "internal"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+  AI_Attack_Surface:
+    # AIS-PI: SHARED across all 4 cases — MERGE key: surface_id
+    - surface_id: "AIS-PI"
+      name: "Indirect Prompt Injection"
+      surface_type: "indirect_prompt_injection"
+      is_adversarial: true
+      description: "Attacker-controlled content (e.g., in logs or alerts ingested by LLM security assistant) containing injected instructions that manipulate AI behavior in CPS security context."
+      aml_technique: "AML.T0051"
+      table1_ref: "C3.1"
+      source: "MITRE ATLAS + CYB-06 v1.6 C3.1"
+      source_id_or_url: "https://atlas.mitre.org/techniques/AML.T0051"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    # AIS-DT: SHARED across all 4 cases — MERGE key: surface_id
+    - surface_id: "AIS-DT"
+      name: "Domain Transfer Shift"
+      surface_type: "domain_transfer"
+      is_adversarial: false
+      description: "AI/ML models trained on IT network traffic fail to generalize to OT protocol distributions (Modbus, DNP3), causing high false-negative rates in CPS anomaly detection."
+      table1_ref: "C4.1"
+      source: "CYB-06 v1.6 C4.1"
+      source_id_or_url: "internal"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    # AIS-EP: SHARED across all 4 cases — MERGE key: surface_id
+    - surface_id: "AIS-EP"
+      name: "Error Propagation"
+      surface_type: "error_propagation"
+      is_adversarial: false
+      description: "False positive alerts from AI anomaly detection trigger incorrect automated responses or operator overrides, potentially causing cascading failures in physical systems."
+      table1_ref: "C4.2"
+      source: "CYB-06 v1.6 C4.2"
+      source_id_or_url: "internal"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"

@@ -1,0 +1,71 @@
+# data/kg_data/stuxnet/stuxnet_ai.yaml
+# Stuxnet — AI Plane nodes
+
+nodes:
+
+  AI_Component:
+    - ai_id: "AIC-STX"
+      name: "PLC Frequency Anomaly Detector"
+      component_type: "anomaly_detector"
+      is_hypothetical: true
+      description: "Hypothetical LSTM-based anomaly detector that could have detected Stuxnet's centrifuge speed manipulation by identifying the unusual pattern of 1,410 Hz → 2 Hz cycling inconsistent with normal enrichment operations."
+      source: "CYB-15 v2.0 (instructional extension)"
+      source_id_or_url: "internal"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+  AI_Attack_Surface:
+    # AIS-PI: SHARED across all 4 cases
+    - surface_id: "AIS-PI"
+      name: "Indirect Prompt Injection"
+      surface_type: "indirect_prompt_injection"
+      is_adversarial: true
+      description: "Attacker-controlled content in logs or alerts ingested by LLM security assistant containing injected instructions"
+      aml_technique: "AML.T0051"
+      table1_ref: "C3.1"
+      source: "MITRE ATLAS + CYB-06 v1.6 C3.1"
+      source_id_or_url: "https://atlas.mitre.org/techniques/AML.T0051"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    # AIS-PP: SHARED across Stuxnet, TRITON, German Steel Mill
+    - surface_id: "AIS-PP"
+      name: "Physical Sensor Perturbation"
+      surface_type: "physical_perturbation"
+      is_adversarial: true
+      description: "Stuxnet's replay attack (recording and looping normal sensor readings) is a canonical example of physical sensor perturbation against AI monitoring — feeding false data to any AI anomaly detection system."
+      aml_technique: "AML.T0020"
+      table1_ref: "C3.2"
+      source: "MITRE ATLAS + CYB-06 v1.6 C3.2"
+      source_id_or_url: "https://atlas.mitre.org/techniques/AML.T0020"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    # AIS-DT: SHARED across all 4 cases
+    - surface_id: "AIS-DT"
+      name: "Domain Transfer Shift"
+      surface_type: "domain_transfer"
+      is_adversarial: false
+      description: "AI models trained on IT traffic may fail to generalize to OT protocol distributions"
+      table1_ref: "C4.1"
+      source: "CYB-06 v1.6 C4.1"
+      source_id_or_url: "internal"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    # AIS-EP: SHARED across all 4 cases
+    - surface_id: "AIS-EP"
+      name: "Error Propagation"
+      surface_type: "error_propagation"
+      is_adversarial: false
+      description: "False positive alerts triggering incorrect operator or automated responses"
+      table1_ref: "C4.2"
+      source: "CYB-06 v1.6 C4.2"
+      source_id_or_url: "internal"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"

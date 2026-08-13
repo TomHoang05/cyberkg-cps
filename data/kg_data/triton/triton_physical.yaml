@@ -1,0 +1,69 @@
+# data/kg_data/triton/triton_physical.yaml
+# TRITON — Physical Plane nodes (Bridge, OT, Physical Process, Consequence)
+# Source: FireEye/Mandiant TRITON report, CYB-15 v2.0, CYB-17 v1.1
+
+nodes:
+
+  Bridge_Mechanism:
+    - bridge_id: "BRG-EWS"
+      name: "Dual-Homed Engineering Workstation"
+      bridge_type: "unauthorized"
+      description: "Engineering workstation connected to BOTH the IT corporate network and the Triconex SIS safety network — an unsanctioned cross-plane bridge that allowed XENOTIME to reach the safety controller from the IT network."
+      table1_ref: "C1.2"
+      source: "FireEye TRITON report 2017"
+      source_id_or_url: "https://www.mandiant.com/resources/blog/attackers-deploy-new-ics-attack-framework-triton"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+  OT_System:
+    - system_id: "OTS-SIS"
+      name: "Triconex SIS MP3008"
+      system_type: "sis"
+      purdue_level: 1
+      vendor: "Schneider Electric"
+      description: "Triconex Safety Instrumented System — the primary target of TRITON malware. Designed to execute automatic emergency shutdown when process parameters exceed safe limits."
+      source: "FireEye TRITON report"
+      source_id_or_url: "https://www.mandiant.com/resources/blog/attackers-deploy-new-ics-attack-framework-triton"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - system_id: "OTS-EWS"
+      name: "Engineering Workstation (OT side)"
+      system_type: "workstation"
+      purdue_level: 3
+      vendor: "undisclosed"
+      description: "Dual-homed EWS OT-side interface; ran TriStation programming software for Triconex SIS configuration. TRITON was deployed from here to the SIS controllers."
+      source: "FireEye TRITON report"
+      source_id_or_url: "internal"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+  Physical_Process:
+    - process_id: "PHY-PET"
+      name: "Petrochemical Safety Process"
+      proc_type: "chemical"
+      description: "SIS-protected high-pressure / high-temperature petrochemical process at Saudi Arabian facility. TRITON aimed to suppress safety shutdown — a failure could cause explosion, toxic release, or worker fatalities."
+      source: "FireEye TRITON report"
+      source_id_or_url: "https://www.mandiant.com/resources/blog/attackers-deploy-new-ics-attack-framework-triton"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+  Consequence:
+    # NOTE: CON-SIS removed — no CAUSES_CONSEQUENCE or CONSEQUENCE_TYPE relationship
+    # (canonical TRITON consequence = CON-EXP only; CAUSES_CONSEQUENCE count = 1 per CYB-25 §T034)
+
+    - consequence_id: "CON-EXP"
+      name: "Explosion Risk (Averted by Accident)"
+      consequence_type: "safety_suppression"
+      severity: "catastrophic"
+      realized: false
+      description: "Planned consequence of TRITON: disable SIS to allow catastrophic physical failure (explosion / chemical release). Averted because a programming error caused the SIS to fail-safe (trip) unexpectedly, alerting engineers."
+      source: "FireEye TRITON report"
+      source_id_or_url: "https://www.mandiant.com/resources/blog/attackers-deploy-new-ics-attack-framework-triton"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"

@@ -1,0 +1,42 @@
+Given the following structured data from the CyberKG-CPS knowledge graph about the {attack} attack,
+generate a complete Attack Dossier for educational use, suitable for a 2-hour lecture (D-02 §Case
+Material Generation).
+
+## Attack Context
+{attack}
+
+## Ordered Attack Chain
+{chain}
+
+## Consequences
+{consequences}
+
+## Human Actors and Actions
+{human_actors}
+
+## AI Components Involved
+{ai_components}
+
+## Instructional Output Requirements
+The dossier aggregates all five CyberKG-CPS instructional output types into one document.
+Produce the following sections, in order:
+1. **Overview** — one-paragraph summary of the attack (what, when, who, primary impact)
+2. **Attack Surface** — affected Purdue levels, IT vs OT systems, network zone boundaries,
+   and network architecture weaknesses (Module 1)
+3. **IT-OT Movement** — step-by-step narrative of the attack chain, identifying the bridge
+   mechanism(s) used and the IT-OT boundary crossing (Module 1)
+4. **Physical Consequences** — consequence type per CyberKG-CPS Table 1
+   (direct_manipulation / indirect_disruption / safety_suppression / manipulation_of_view) and
+   the affected physical process (Module 2)
+5. **AI & Human Roles** — AI attack-surface or AI-resilience implications (if any) and the
+   human roles/decisions involved (Modules 3-5). If no AI components are documented, state this
+   explicitly per the sparse-plane handling rule.
+6. **Key Takeaways** — 3-5 bullet-style takeaways an instructor could use directly in class
+7. **Discussion Questions** — 2-3 open-ended questions for student discussion
+
+Throughout, follow the evidence-class qualification rules: only state as fact what is marked
+documented_fact, qualify supported_inference statements, and clearly label instructional
+extensions.
+
+## Data Provenance
+{provenance_summary}

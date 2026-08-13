@@ -1,0 +1,73 @@
+# data/kg_data/german_steel_mill/gsm_ai.yaml
+# German Steel Mill — AI Plane nodes
+# AIC-GSM component_type = anomaly_detector (NOT predictive_maintenance — not in canonical enum)
+# See CLAUDE.md §14 for correction note
+
+nodes:
+
+  AI_Component:
+    - ai_id: "AIC-GSM"
+      name: "Blast Furnace Process Anomaly Detector"
+      component_type: "anomaly_detector"
+      is_hypothetical: true
+      description: "Hypothetical AI anomaly detector monitoring blast furnace operational parameters (temperature, pressure, material flow rates). Could have flagged parameter drift outside normal envelopes before the uncontrolled shutdown became inevitable. Note: CYB-15 HTML listed 'predictive_maintenance' which is not in the canonical enum — corrected to 'anomaly_detector'."
+      source: "CYB-15 v2.0 (instructional extension; component_type corrected)"
+      source_id_or_url: "internal"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+  AI_Attack_Surface:
+    # AIS-PI: SHARED across all 4 cases
+    - surface_id: "AIS-PI"
+      name: "Indirect Prompt Injection"
+      surface_type: "indirect_prompt_injection"
+      is_adversarial: true
+      description: "Attacker-controlled content in logs or alerts ingested by LLM security assistant containing injected instructions"
+      aml_technique: "AML.T0051"
+      table1_ref: "C3.1"
+      source: "MITRE ATLAS + CYB-06 v1.6 C3.1"
+      source_id_or_url: "https://atlas.mitre.org/techniques/AML.T0051"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    # AIS-PP: SHARED across Stuxnet, TRITON, German Steel Mill (NOT Colonial)
+    - surface_id: "AIS-PP"
+      name: "Physical Sensor Perturbation"
+      surface_type: "physical_perturbation"
+      is_adversarial: true
+      description: "Adversarial manipulation of furnace sensor readings to corrupt AI monitoring — analogous to Stuxnet's replay attack applied to steel mill temperature/pressure sensors"
+      aml_technique: "AML.T0020"
+      table1_ref: "C3.2"
+      source: "MITRE ATLAS + CYB-06 v1.6 C3.2"
+      source_id_or_url: "https://atlas.mitre.org/techniques/AML.T0020"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    # AIS-DT: SHARED across all 4 cases
+    - surface_id: "AIS-DT"
+      name: "Domain Transfer Shift"
+      surface_type: "domain_transfer"
+      is_adversarial: false
+      description: "AI models trained on IT traffic may fail to generalize to OT protocol distributions"
+      table1_ref: "C4.1"
+      source: "CYB-06 v1.6 C4.1"
+      source_id_or_url: "internal"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    # AIS-EP: SHARED across all 4 cases
+    - surface_id: "AIS-EP"
+      name: "Error Propagation"
+      surface_type: "error_propagation"
+      is_adversarial: false
+      description: "False positive alerts triggering incorrect operator or automated responses"
+      table1_ref: "C4.2"
+      source: "CYB-06 v1.6 C4.2"
+      source_id_or_url: "internal"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"

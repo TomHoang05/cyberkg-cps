@@ -1,0 +1,30 @@
+name: Release v1.0-MVP
+
+on:
+  push:
+    tags: ["v1.0-MVP", "v1.*"]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run full test suite
+        run: |
+          pip install -r backend/requirements.txt
+          cd backend && python -m pytest tests/ -v
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "CyberKG-CPS MVP v1.0"
+          body: |
+            ## CyberKG-CPS MVP Release
+            - 4 attack cases loaded (Colonial Pipeline, TRITON, German Steel Mill, Stuxnet)
+            - 5 query types (Q1-Q5)
+            - 3 LLM instructional output types
+            - React + D3.js frontend
+            See docs/ for API spec and schema documentation.
+          files: |
+            docs/*.pdf
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

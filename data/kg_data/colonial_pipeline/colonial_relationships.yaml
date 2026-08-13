@@ -1,0 +1,297 @@
+# data/kg_data/colonial_pipeline/colonial_relationships.yaml
+# Colonial Pipeline — all relationships for this case
+# from_id / to_id must match primary key values in already-loaded nodes
+# Relationship type must be in canonical 17 types (CYB-13 §V)
+
+relationships:
+
+  # Attack → Techniques
+  - from_type: "Attack"
+    from_id: "ATK-COL-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T1078"
+    properties:
+      step_order: 1
+      phase: "initial-access"
+      evidence_class: "documented_fact"
+
+  - from_type: "Attack"
+    from_id: "ATK-COL-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T1021"
+    properties:
+      step_order: 2
+      phase: "lateral-movement"
+      evidence_class: "supported_inference"
+
+  - from_type: "Attack"
+    from_id: "ATK-COL-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T1486"
+    properties:
+      step_order: 3
+      phase: "impact"
+      evidence_class: "documented_fact"
+
+  # Technique order chain: T1078 → T1021 → T1486
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1078"
+    type: "TECHNIQUE_ORDER"
+    to_type: "ATT_CK_Technique"
+    to_id: "T1021"
+    properties:
+      step_order: 1
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1021"
+    type: "TECHNIQUE_ORDER"
+    to_type: "ATT_CK_Technique"
+    to_id: "T1486"
+    properties:
+      step_order: 2
+
+  # Technique → IT System targets
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1078"
+    type: "TARGETS"
+    to_type: "IT_System"
+    to_id: "ITS-VPN"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1021"
+    type: "TARGETS"
+    to_type: "IT_System"
+    to_id: "ITS-JMP"
+    properties:
+      evidence_class: "supported_inference"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1021"
+    type: "TARGETS"
+    to_type: "IT_System"
+    to_id: "ITS-AD"
+    properties:
+      evidence_class: "supported_inference"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1486"
+    type: "TARGETS"
+    to_type: "IT_System"
+    to_id: "ITS-AD"
+    properties:
+      evidence_class: "documented_fact"
+
+  # IT Systems → Network Zones
+  - from_type: "IT_System"
+    from_id: "ITS-VPN"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-CORP"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "IT_System"
+    from_id: "ITS-AD"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-CORP"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "IT_System"
+    from_id: "ITS-JMP"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-DMZ"
+    properties:
+      evidence_class: "supported_inference"
+
+  # Bridge → Network Zones
+  - from_type: "Bridge_Mechanism"
+    from_id: "BRG-VPN"
+    type: "BRIDGES_TO"
+    to_type: "Network_Zone"
+    to_id: "NZ-INET"
+    properties:
+      side: "it_side"
+
+  - from_type: "Bridge_Mechanism"
+    from_id: "BRG-VPN"
+    type: "BRIDGES_TO"
+    to_type: "Network_Zone"
+    to_id: "NZ-CORP"
+    properties:
+      side: "ot_side"
+
+  # Attack → Bridge
+  - from_type: "Attack"
+    from_id: "ATK-COL-001"
+    type: "USES_BRIDGE"
+    to_type: "Bridge_Mechanism"
+    to_id: "BRG-VPN"
+    properties:
+      evidence_class: "documented_fact"
+
+  # OT System → Network Zone
+  - from_type: "OT_System"
+    from_id: "OTS-PIPE"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-PIPE"
+    properties:
+      evidence_class: "documented_fact"
+
+  # OT System → Physical Process
+  - from_type: "OT_System"
+    from_id: "OTS-PIPE"
+    type: "AFFECTS_PROCESS"
+    to_type: "Physical_Process"
+    to_id: "PHY-FUEL"
+    properties:
+      evidence_class: "documented_fact"
+
+  # Attack → Consequences
+  - from_type: "Attack"
+    from_id: "ATK-COL-001"
+    type: "CAUSES_CONSEQUENCE"
+    to_type: "Consequence"
+    to_id: "CON-FUEL"
+    properties:
+      direct: false
+      evidence_class: "documented_fact"
+
+  # Consequence → Instructional Concept
+  - from_type: "Consequence"
+    from_id: "CON-FUEL"
+    type: "CONSEQUENCE_TYPE"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C22"
+    properties:
+      evidence_class: "documented_fact"
+
+  # Bridge → Instructional Concept
+  - from_type: "Bridge_Mechanism"
+    from_id: "BRG-VPN"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C11"
+    properties:
+      evidence_class: "documented_fact"
+
+  # Technique → Instructional Concept
+  # C1.1 Authorized Bridges: stolen VPN credential exploits legitimate access path
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1078"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C11"
+    properties:
+      mapping_rationale: "Valid account credential exploits authorized VPN bridge; teaches C1.1"
+      evidence_class: "documented_fact"
+
+  # C1.2 Unauthorized Bridges: lateral movement creates unsanctioned IT path
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1021"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C12"
+    properties:
+      mapping_rationale: "Remote Services lateral movement crosses unauthorized boundary; teaches C1.2"
+      evidence_class: "supported_inference"
+
+  # C2.2 Indirect Disruption: IT ransomware triggers voluntary OT shutdown
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1486"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C22"
+    properties:
+      mapping_rationale: "Ransomware on IT caused Colonial to voluntarily shut down OT pipeline; teaches C2.2"
+      evidence_class: "documented_fact"
+
+  # AI Component
+  - from_type: "AI_Component"
+    from_id: "AIC-COL"
+    type: "AI_INVOLVED_IN"
+    to_type: "Attack"
+    to_id: "ATK-COL-001"
+    properties:
+      role: "hypothetical_defender"
+      evidence_class: "instructional_extension"
+
+  - from_type: "AI_Attack_Surface"
+    from_id: "AIS-PI"
+    type: "AI_ATTACK_VIA"
+    to_type: "AI_Component"
+    to_id: "AIC-COL"
+    properties:
+      evidence_class: "instructional_extension"
+
+  # AI Attack Surface → Instructional Concepts
+  - from_type: "AI_Attack_Surface"
+    from_id: "AIS-PI"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C31"
+    properties:
+      evidence_class: "instructional_extension"
+
+  - from_type: "AI_Attack_Surface"
+    from_id: "AIS-DT"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C41"
+    properties:
+      evidence_class: "instructional_extension"
+
+  - from_type: "AI_Attack_Surface"
+    from_id: "AIS-EP"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C42"
+    properties:
+      evidence_class: "instructional_extension"
+
+  # Human Actor
+  - from_type: "Human_Actor"
+    from_id: "HUM-COL"
+    type: "PERFORMS_ACTION"
+    to_type: "Human_Action"
+    to_id: "ACT-COL"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Human_Actor"
+    from_id: "HUM-COL"
+    type: "HUMAN_ROLE"
+    to_type: "Attack"
+    to_id: "ATK-COL-001"
+    properties:
+      role_type: "defender"
+      evidence_class: "documented_fact"
+
+  # AI Resilience surfaces → AI Component (fix 1.1 — AIS-DT + AIS-EP linked to Colonial)
+  # Rationale: Colonial is the only IT-OT Transition case; AIS-DT/AIS-EP both have
+  # MAPS_TO_CONCEPT anchors here (IC-C41, IC-C42). Narrative: AI trained on IT traffic
+  # fails to generalize to Modbus/DNP3 (AIS-DT); false-positive storm causes operator
+  # to disable IDS (AIS-EP).
+  - from_type: "AI_Attack_Surface"
+    from_id: "AIS-DT"
+    type: "AI_ATTACK_VIA"
+    to_type: "AI_Component"
+    to_id: "AIC-COL"
+    properties:
+      evidence_class: "instructional_extension"
+
+  - from_type: "AI_Attack_Surface"
+    from_id: "AIS-EP"
+    type: "AI_ATTACK_VIA"
+    to_type: "AI_Component"
+    to_id: "AIC-COL"
+    properties:
+      evidence_class: "instructional_extension"

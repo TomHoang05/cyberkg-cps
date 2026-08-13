@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+venv/
+.venv/
+
+# Environment — never commit real credentials
+.env
+.env.local
+backend/.env
+src/frontend/.env.local
+
+# Node
+node_modules/
+*.local
+
+# Vite build output
+src/frontend/dist/
+
+# Neo4j Docker volumes
+neo4j/data/
+neo4j/logs/
+neo4j/import/
+neo4j/plugins/
+
+# Redis
+dump.rdb
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# AI session files (internal tooling, not for the repo)
+CLAUDE.md

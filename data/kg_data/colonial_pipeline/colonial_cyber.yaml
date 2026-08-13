@@ -1,0 +1,103 @@
+# data/kg_data/colonial_pipeline/colonial_cyber.yaml
+# Colonial Pipeline Ransomware Attack (2021) — Cyber Plane nodes
+# Source: CISA Alert AA21-131A, CYB-15 v2.0, CYB-17 v1.1
+# MERGE keys: attack_id (Attack), mitre_id (ATT_CK_Technique),
+#             capec_id (Attack_Pattern), system_id (IT_System)
+
+nodes:
+
+  Attack:
+    - attack_id: "ATK-COL-001"
+      name: "Colonial Pipeline Ransomware Attack"
+      year: 2021
+      industry_sector: "pipeline"
+      nation_state: false
+      actor: "DarkSide RaaS"
+      bridge_type: "authorized"
+      description: "DarkSide ransomware group used a leaked VPN credential (no MFA) to access Colonial Pipeline IT network. Encrypted billing/accounting systems; Colonial voluntarily shut down 5,500-mile OT pipeline for 6 days causing US East Coast fuel shortage."
+      kill_chain_summary: "Initial access via stolen VPN credential → lateral movement → ransomware deployment on IT → voluntary OT shutdown"
+      source: "CISA AA21-131A"
+      source_id_or_url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-131a"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+  ATT_CK_Technique:
+    # MERGE key: mitre_id — T1078 is SHARED with German Steel Mill
+    - technique_id: "TEC-T1078"
+      mitre_id: "T1078"
+      name: "Valid Accounts"
+      platform: "Enterprise"
+      tactic: "initial-access"
+      description: "DarkSide obtained a legacy VPN account credential (found on dark web) with no MFA. Used to log into Colonial's IT network as a legitimate user."
+      source: "CISA AA21-131A"
+      source_id_or_url: "https://attack.mitre.org/techniques/T1078/"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    # T1021 — Colonial-only (lateral movement within IT network per CYB-13 §VII)
+    # NOTE: T0822 (External Remote Services/VPN) = USES_BRIDGE only, not USES_TECHNIQUE
+    - technique_id: "TEC-T1021"
+      mitre_id: "T1021"
+      name: "Remote Services"
+      platform: "Enterprise"
+      tactic: "lateral-movement"
+      description: "DarkSide moved laterally within Colonial's enterprise IT network via remote services (RDP) after initial VPN access, pivoting through internal systems before deploying ransomware."
+      source: "CISA AA21-131A"
+      source_id_or_url: "https://attack.mitre.org/techniques/T1021/"
+      evidence_class: "supported_inference"
+      confidence: 0.80
+      license: "CYB-17 v1.1"
+
+    - technique_id: "TEC-T1486"
+      mitre_id: "T1486"
+      name: "Data Encrypted for Impact"
+      platform: "Enterprise"
+      tactic: "impact"
+      description: "DarkSide ransomware encrypted Colonial Pipeline billing, accounting, and corporate data systems, triggering the voluntary OT shutdown decision."
+      source: "CISA AA21-131A"
+      source_id_or_url: "https://attack.mitre.org/techniques/T1486/"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+  # NOTE: No Attack_Pattern nodes for Colonial Pipeline — per canonical 6 CAPECs (CYB-25 §T039)
+  # (CAPEC-560 removed; Colonial has no CAPEC in canonical set)
+
+  IT_System:
+    - system_id: "ITS-VPN"
+      name: "VPN Gateway"
+      system_type: "vpn"
+      purdue_level: 5
+      description: "Corporate VPN without MFA — the entry vector for DarkSide. Legacy account credential was active and unrevoked."
+      vendor: "Pulse Secure (reported)"
+      source: "CISA AA21-131A"
+      source_id_or_url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-131a"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    # MERGE key: system_id — ITS-AD is SHARED with TRITON
+    - system_id: "ITS-AD"
+      name: "Active Directory"
+      system_type: "ad"
+      purdue_level: 4
+      description: "Enterprise Active Directory server; lateral movement pivot via AD authentication"
+      source: "CYB-15 v2.0"
+      source_id_or_url: "internal"
+      evidence_class: "supported_inference"
+      confidence: 0.8
+      license: "CYB-17 v1.1"
+
+    # MERGE key: system_id — ITS-JMP is SHARED with TRITON
+    - system_id: "ITS-JMP"
+      name: "Jump Host"
+      system_type: "jump_host"
+      purdue_level: 4
+      description: "Remote access jump host used as lateral movement pivot between zones"
+      source: "CYB-15 v2.0"
+      source_id_or_url: "internal"
+      evidence_class: "supported_inference"
+      confidence: 0.8
+      license: "CYB-17 v1.1"

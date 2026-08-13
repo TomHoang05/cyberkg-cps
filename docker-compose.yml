@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+
+  # ── Neo4j ──────────────────────────────────────────────────────────────────
+  neo4j:
+    image: neo4j:5-community
+    ports:
+      - "7474:7474"   # Neo4j Browser UI
+      - "7687:7687"   # Bolt protocol
+    environment:
+      NEO4J_AUTH: neo4j/${NEO4J_PASSWORD}
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_security_procedures_unrestricted: apoc.*
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "${NEO4J_PASSWORD}", "RETURN 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  # ── FastAPI backend ─────────────────────────────────────────────────────────
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file: .env
+    environment:
+      # Override connection strings to use Docker service hostnames
+      NEO4J_URI: bolt://neo4j:7687
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    volumes:
+      # Hot-reload in dev: mount source into the container
+      - ./backend/src:/app/backend/src
+      # Loader script and YAML data (read-only; needed for docker compose exec load)
+      - ./scripts:/app/scripts:ro
+      - ./data:/app/data:ro
+
+  # ── React / Vite frontend ───────────────────────────────────────────────────
+  frontend:
+    build: ./src/frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  neo4j_data:
+  neo4j_logs:

@@ -1,0 +1,272 @@
+# data/kg_data/stuxnet/stuxnet_cyber.yaml
+# Stuxnet Attack (2010) — Cyber Plane nodes
+# Source: Symantec W32.Stuxnet Dossier, Langner report, CYB-15 v2.0, CYB-17 v1.1
+# Most sophisticated ICS attack to date: 4 Windows zero-days + 2 Siemens-specific vulns
+
+nodes:
+
+  Attack:
+    - attack_id: "ATK-STX-001"
+      name: "Stuxnet Worm Attack"
+      year: 2010
+      industry_sector: "nuclear"
+      nation_state: true
+      actor: "Equation Group (attributed to US-Israel joint operation)"
+      bridge_type: "air_gap"
+      description: "State-sponsored cyberweapon targeting Siemens S7-315 PLCs controlling uranium enrichment centrifuges at Natanz, Iran. Exploited 4 Windows zero-days + 2 Siemens flaws. Physically destroyed ~1,000 IR-1 centrifuges by manipulating rotation speed while showing false-normal readings on SCADA."
+      kill_chain_summary: "USB drop via contractor → 4 zero-day Windows exploits → Siemens WinCC SQL bypass → S7-315 PLC rootkit → centrifuge speed manipulation → operator view replay → ~1000 centrifuges destroyed"
+      source: "Symantec W32.Stuxnet Dossier v1.4"
+      source_id_or_url: "https://docs.broadcom.com/doc/security-response-w32-stuxnet-dossier-11-en"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+  ATT_CK_Technique:
+    - technique_id: "TEC-T1091"
+      mitre_id: "T1091"
+      name: "Replication Through Removable Media"
+      platform: "Enterprise"
+      tactic: "lateral-movement"
+      description: "Stuxnet was introduced via infected USB drives given to external contractors. When plugged into air-gapped engineering workstations, the LNK zero-day (CVE-2010-2568) auto-executed without user interaction."
+      source: "Symantec W32.Stuxnet Dossier"
+      source_id_or_url: "https://attack.mitre.org/techniques/T1091/"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - technique_id: "TEC-T1543"
+      mitre_id: "T1543"
+      name: "Modify System Process"
+      platform: "Enterprise"
+      tactic: "persistence"
+      description: "Stuxnet installed a signed (stolen Realtek/JMicron cert) rootkit as a system process to persist on Windows hosts and hide its presence from SCADA software."
+      source: "Symantec W32.Stuxnet Dossier"
+      source_id_or_url: "https://attack.mitre.org/techniques/T1543/"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    - technique_id: "TEC-T1055"
+      mitre_id: "T1055"
+      name: "Process Injection"
+      platform: "Enterprise"
+      tactic: "execution"
+      description: "Stuxnet injected malicious DLLs into SCADA processes (WinCC/Step 7) to intercept PLC communications and inject rogue code blocks while maintaining stealth."
+      source: "Symantec W32.Stuxnet Dossier"
+      source_id_or_url: "https://attack.mitre.org/techniques/T1055/"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    - technique_id: "TEC-T0847"
+      mitre_id: "T0847"
+      name: "Replication Through Removable Media (ICS)"
+      platform: "ICS"
+      tactic: "initial-access"
+      description: "ICS-specific technique: using removable media to cross air-gap into OT environment without network connectivity"
+      source: "MITRE ATT&CK ICS v14"
+      source_id_or_url: "https://attack.mitre.org/techniques/T0847/"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    # TEC-T0873: SHARED with German Steel Mill
+    - technique_id: "TEC-T0873"
+      mitre_id: "T0873"
+      name: "Project File Infection"
+      platform: "ICS"
+      tactic: "execution"
+      description: "Stuxnet infected Siemens Step 7 project files to inject malicious OB35/DB89 code blocks into S7-315 PLC programs, enabling persistent centrifuge speed manipulation. Also used in German Steel Mill attack."
+      source: "Symantec W32.Stuxnet Dossier"
+      source_id_or_url: "https://attack.mitre.org/techniques/T0873/"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - technique_id: "TEC-T0832"
+      mitre_id: "T0832"
+      name: "Manipulation of View"
+      platform: "ICS"
+      tactic: "impact"
+      description: "Stuxnet replayed recorded normal centrifuge sensor data continuously on SCADA/WinCC displays while physically sabotaging the centrifuges — operators saw false-normal readings for months."
+      source: "Symantec W32.Stuxnet Dossier"
+      source_id_or_url: "https://attack.mitre.org/techniques/T0832/"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # TEC-T0831: SHARED with German Steel Mill
+    - technique_id: "TEC-T0831"
+      mitre_id: "T0831"
+      name: "Manipulation of Control"
+      platform: "ICS"
+      tactic: "impact"
+      description: "Stuxnet commanded S7-315 PLCs to spin centrifuges at extreme frequencies (1410 Hz → 1064 Hz → 2 Hz cycles) causing physical rotor damage while suppressing safety alarms. Shared with German Steel Mill attack pattern."
+      source: "Symantec W32.Stuxnet Dossier"
+      source_id_or_url: "https://attack.mitre.org/techniques/T0831/"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+  Vulnerability:
+    - vuln_id: "VUL-CVE2568"
+      cve_id: "CVE-2010-2568"
+      name: "Windows Shell LNK File Handling Zero-Day"
+      cvss_v3_score: 9.3
+      description: "Windows Shell vulnerability in LNK file icon loading — auto-executes malicious DLL when user views USB contents in Explorer. Used as Stuxnet's primary air-gap crossing mechanism."
+      affected_product: "Microsoft Windows XP/Vista/7/Server 2003/2008"
+      source: "NVD"
+      source_id_or_url: "https://nvd.nist.gov/vuln/detail/CVE-2010-2568"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - vuln_id: "VUL-CVE2729"
+      cve_id: "CVE-2010-2729"
+      name: "Windows Print Spooler Remote Code Execution"
+      cvss_v3_score: 9.3
+      description: "Windows Print Spooler service allows unauthenticated network propagation — used by Stuxnet to spread from workstation to workstation within LAN"
+      affected_product: "Microsoft Windows"
+      source: "NVD"
+      source_id_or_url: "https://nvd.nist.gov/vuln/detail/CVE-2010-2729"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    - vuln_id: "VUL-CVE2772"
+      cve_id: "CVE-2010-2772"
+      name: "Siemens WinCC SQL Authentication Bypass"
+      cvss_v3_score: 9.0
+      description: "Hardcoded SQL Server credentials (user: WinCCConnect, password: 2WSXcder) in Siemens WinCC SCADA — allowed Stuxnet to access WinCC database and spread via Step 7 project files"
+      affected_product: "Siemens WinCC / Step 7"
+      source: "NVD"
+      source_id_or_url: "https://nvd.nist.gov/vuln/detail/CVE-2010-2772"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - vuln_id: "VUL-CVE2743"
+      cve_id: "CVE-2010-2743"
+      name: "Windows Kernel Privilege Escalation"
+      cvss_v3_score: 7.2
+      description: "Windows kernel driver win32k.sys privilege escalation zero-day used by Stuxnet to gain SYSTEM privileges on infected workstations"
+      affected_product: "Microsoft Windows"
+      source: "NVD"
+      source_id_or_url: "https://nvd.nist.gov/vuln/detail/CVE-2010-2743"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+  Weakness:
+    - weakness_id: "WEK-CWE20"
+      cwe_id: "CWE-20"
+      name: "Improper Input Validation"
+      abstraction: "Base"
+      description: "Windows Shell's failure to validate LNK file icons before loading underlying DLL — root cause of CVE-2010-2568 zero-day"
+      source: "MITRE CWE"
+      source_id_or_url: "https://cwe.mitre.org/data/definitions/20.html"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - weakness_id: "WEK-CWE287"
+      cwe_id: "CWE-287"
+      name: "Improper Authentication"
+      abstraction: "Base"
+      description: "Siemens WinCC hardcoded credentials (CWE-798 subcategory) enabling Stuxnet SQL authentication bypass"
+      source: "MITRE CWE"
+      source_id_or_url: "https://cwe.mitre.org/data/definitions/287.html"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    # CWE-264 (abstraction=Class/Category, deprecated CWE 4.4) replaced with CWE-787 (Base level)
+    - weakness_id: "WEK-CWE787"
+      cwe_id: "CWE-787"
+      name: "Out-of-bounds Write"
+      abstraction: "Base"
+      description: "win32k.sys kernel driver out-of-bounds write enabling privilege escalation to SYSTEM — root cause of CVE-2010-2743 zero-day (replacement for deprecated CWE-264)"
+      source: "MITRE CWE"
+      source_id_or_url: "https://cwe.mitre.org/data/definitions/787.html"
+      evidence_class: "documented_fact"
+      confidence: 0.85
+      license: "CYB-17 v1.1"
+
+    - weakness_id: "WEK-CWE798"
+      cwe_id: "CWE-798"
+      name: "Use of Hard-coded Credentials"
+      abstraction: "Base"
+      description: "Siemens WinCC SCADA software contained hardcoded SQL Server credentials (user: WinCCConnect, password: 2WSXcder), enabling Stuxnet to authenticate to the WinCC database and access Step 7 project files without any user interaction."
+      source: "MITRE CWE"
+      source_id_or_url: "https://cwe.mitre.org/data/definitions/798.html"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    # NOTE: CWE-119 (abstraction=Class) removed — fails granularity.py MAX_ABSTRACTION_LEVEL="Base".
+    # CWE-787 (Out-of-bounds Write, Base) above covers the memory buffer manipulation pattern.
+
+  Attack_Pattern:
+    - pattern_id: "CAP-210"
+      capec_id: "CAPEC-210"
+      name: "Abuse Existing Functionality"
+      description: "Exploiting legitimate Windows Shell LNK functionality to auto-execute malicious DLLs from USB drives"
+      source: "CAPEC"
+      source_id_or_url: "https://capec.mitre.org/data/definitions/210.html"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - pattern_id: "CAP-554"
+      capec_id: "CAPEC-554"
+      name: "Functionality Misuse"
+      description: "Using legitimate Siemens Step 7 PLC programming features to inject malicious function blocks (OB35/DB89)"
+      source: "CAPEC"
+      source_id_or_url: "https://capec.mitre.org/data/definitions/554.html"
+      evidence_class: "documented_fact"
+      confidence: 0.85
+      license: "CYB-17 v1.1"
+
+    - pattern_id: "CAP-122"
+      capec_id: "CAPEC-122"
+      name: "Privilege Abuse"
+      description: "Exploiting stolen Realtek/JMicron code-signing certificates to install trusted rootkit drivers"
+      source: "CAPEC"
+      source_id_or_url: "https://capec.mitre.org/data/definitions/122.html"
+      evidence_class: "documented_fact"
+      confidence: 0.85
+      license: "CYB-17 v1.1"
+
+    - pattern_id: "CAP-191"
+      capec_id: "CAPEC-191"
+      name: "Read Sensitive Constants Within an Executable"
+      description: "Exploiting hardcoded WinCC credentials (WinCCConnect/2WSXcder) embedded in Siemens software binary to gain unauthorized database access — attacker uses known constants from reverse-engineered executable, not SQL injection"
+      source: "CAPEC"
+      source_id_or_url: "https://capec.mitre.org/data/definitions/191.html"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+  IT_System:
+    - system_id: "ITS-HIST"
+      name: "IT Data Historian"
+      system_type: "historian"
+      purdue_level: 4
+      description: "IT/OT data historian bridging enterprise and control networks — Stuxnet used historian access to reach Step 7 project databases"
+      source: "Symantec W32.Stuxnet Dossier"
+      source_id_or_url: "internal"
+      evidence_class: "supported_inference"
+      confidence: 0.8
+      license: "CYB-17 v1.1"
+
+    # ITS-C2: SHARED with TRITON
+    - system_id: "ITS-C2"
+      name: "C2 Server"
+      system_type: "server"
+      purdue_level: 5
+      description: "Command and control server for exfiltration and malware tasking (Stuxnet phoned home to Malaysian C2)"
+      source: "Symantec W32.Stuxnet Dossier"
+      source_id_or_url: "internal"
+      evidence_class: "documented_fact"
+      confidence: 0.85
+      license: "CYB-17 v1.1"

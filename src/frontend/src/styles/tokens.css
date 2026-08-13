@@ -1,0 +1,93 @@
+/* CyberKG-CPS Design Tokens — CYB-19 dark palette */
+:root {
+  /* ── Backgrounds */
+  --bg:           #0b0e18;
+  --bg2:          #111827;
+  --bg3:          #1a2235;
+  --bg4:          #1e2d42;
+
+  /* ── Plane / accent colors */
+  --color-cyber:    #3B82F6;
+  --color-physical: #F59E0B;
+  --color-ai:       #8B5CF6;
+  --color-human:    #EC4899;
+  --color-bridge:   #00C9A7;
+
+  /* Shorthand aliases used in JSX */
+  --teal:   #00C9A7;
+  --blue:   #3B82F6;
+  --purple: #8B5CF6;
+  --red:    #EF4444;
+  --yellow: #F59E0B;
+  --green:  #10B981;
+  --pink:   #EC4899;
+  --orange: #FF6B35;
+
+  /* Severity */
+  --color-sev-critical: #DC2626;
+  --color-sev-high:     #EF4444;
+  --color-sev-medium:   #F59E0B;
+  --color-sev-low:      #10B981;
+
+  /* Evidence class */
+  --color-ev-fact:      #16A34A;
+  --color-ev-inference: #F59E0B;
+  --color-ev-extension: #6B7280;
+
+  /* UI chrome */
+  --color-primary:    #1F3864;
+  --color-primary-lt: #2E75B6;
+  --color-bg-canvas:  var(--bg);
+  --color-bg-surface: var(--bg2);
+  --color-border:     #1e2d42;
+  --color-text-primary:   #e2e8f0;
+  --color-text-secondary: #64748b;
+
+  /* Fonts */
+  --font-ui:   "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+
+  /* Layout */
+  --panel-width: 280px;
+  --header-h:    52px;
+
+  /* Phase tag palette */
+  --mvp-bg:     #0d2e1f;
+  --mvp-border: #10B981;
+  --mvp-text:   #10B981;
+  --v1-bg:      #2a1a00;
+  --v1-border:  #F59E0B;
+  --v1-text:    #F59E0B;
+  --v2-bg:      #1a0d2e;
+  --v2-border:  #8B5CF6;
+  --v2-text:    #a78bfa;
+}
+
+/* ── Dark base */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: var(--font-ui);
+  background: var(--bg);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+}
+
+/* ── Dark form controls */
+select, input, textarea {
+  background: var(--bg3);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-family: var(--font-ui);
+  outline: none;
+  transition: border-color .15s;
+}
+select:focus, input:focus, textarea:focus { border-color: var(--teal); }
+
+/* ── Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 3px; }

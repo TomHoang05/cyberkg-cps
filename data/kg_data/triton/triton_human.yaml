@@ -1,0 +1,31 @@
+# data/kg_data/triton/triton_human.yaml
+# TRITON — Human Plane nodes
+# actor_type: attacker | defender | decision_maker | operator | engineer | manager
+
+nodes:
+
+  Human_Actor:
+    - actor_id: "HUM-SIS"
+      name: "SIS Safety Engineer"
+      actor_type: "engineer"
+      expertise_level: "expert"
+      detected_anomaly: true
+      description: "Triconex SIS safety engineer who detected an unexpected SIS trip (fail-safe activation) and investigated, ultimately discovering the TRITON malware. The accidental fail-safe trip is the only reason the attack was detected."
+      source: "FireEye TRITON report"
+      source_id_or_url: "https://www.mandiant.com/resources/blog/attackers-deploy-new-ics-attack-framework-triton"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+  Human_Action:
+    - action_id: "ACT-SIS"
+      name: "Detected Unexpected SIS Trip"
+      action_type: "detection"
+      outcome: "attack_detected"
+      description: "SIS engineer investigated an unexplained SIS controller trip. While troubleshooting, discovered unauthorized firmware in Triconex controllers — leading to identification of TRITON malware. Discovery was accidental: TRITON's own programming bug caused the SIS to fail-safe."
+      lesson: "Accidental discovery highlights importance of SIS baseline auditing; the attack would have succeeded without the unintended trip."
+      source: "FireEye TRITON report"
+      source_id_or_url: "https://www.mandiant.com/resources/blog/attackers-deploy-new-ics-attack-framework-triton"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"

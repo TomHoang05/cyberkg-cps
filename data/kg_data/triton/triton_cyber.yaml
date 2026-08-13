@@ -1,0 +1,229 @@
+# data/kg_data/triton/triton_cyber.yaml
+# TRITON / TRISIS Attack (2017) — Cyber Plane nodes
+# Source: FireEye/Mandiant TRITON report, CYB-15 v2.0, CYB-17 v1.1
+# MERGE keys: mitre_id (ATT_CK_Technique), vuln_id/cve_id (Vulnerability),
+#             weakness_id/cwe_id (Weakness), capec_id (Attack_Pattern), system_id (IT_System)
+
+nodes:
+
+  Attack:
+    - attack_id: "ATK-TRI-001"
+      name: "TRITON / TRISIS Safety System Attack"
+      year: 2017
+      industry_sector: "petrochemical"
+      nation_state: true
+      actor: "XENOTIME (attributed to Russia TEMP.Veles)"
+      bridge_type: "unauthorized"
+      description: "XENOTIME threat group deployed TRITON/TRISIS malware against Schneider Electric Triconex Safety Instrumented System (SIS) at a Saudi Arabian petrochemical facility. First malware designed to compromise physical safety systems — could have caused explosion or chemical release. Attack failed due to unintentional SIS fail-safe trip."
+      kill_chain_summary: "Spearphishing → EWS compromise → lateral movement to safety network via dual-homed EWS → TRITON malware reprogrammed Triconex SIS controllers"
+      source: "FireEye/Mandiant TRITON report 2017"
+      source_id_or_url: "https://www.mandiant.com/resources/blog/attackers-deploy-new-ics-attack-framework-triton"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+  ATT_CK_Technique:
+    # MERGE key: mitre_id — T1566 is SHARED with German Steel Mill
+    - technique_id: "TEC-T1566"
+      mitre_id: "T1566.001"
+      name: "Spearphishing Attachment"
+      platform: "Enterprise"
+      tactic: "initial-access"
+      description: "XENOTIME sent targeted spearphishing emails with malicious attachments to gain initial foothold on engineering workstation in TRITON attack. Also used in German Steel Mill attack."
+      source: "FireEye TRITON report"
+      source_id_or_url: "https://attack.mitre.org/techniques/T1566/001/"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    - technique_id: "TEC-T0880"
+      mitre_id: "T0880"
+      name: "Loss of Safety"
+      platform: "ICS"
+      tactic: "impact"
+      description: "TRITON malware reprogrammed Triconex SIS to suppress safety instrumented functions, preventing automatic emergency shutdown when process parameters exceeded safe limits."
+      source: "FireEye TRITON report"
+      source_id_or_url: "https://attack.mitre.org/techniques/T0880/"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # T0864 — TRITON canonical technique (transient asset = dual-homed EWS)
+    - technique_id: "TEC-T0864"
+      mitre_id: "T0864"
+      name: "Transient Cyber Asset"
+      platform: "ICS"
+      tactic: "lateral-movement"
+      description: "Dual-homed engineering workstation (EWS) that bridges the IT network and the safety network — used as transient cyber asset to deploy TRITON from IT to Triconex SIS."
+      source: "FireEye TRITON report"
+      source_id_or_url: "https://attack.mitre.org/techniques/T0864/"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    - technique_id: "TEC-T0886"
+      mitre_id: "T0886"
+      name: "Remote Services Exploitation"
+      platform: "ICS"
+      tactic: "lateral-movement"
+      description: "Exploitation of TriStation protocol (proprietary, unencrypted) to communicate directly with Triconex SIS memory, enabling firmware-level code injection."
+      source: "FireEye TRITON report"
+      source_id_or_url: "https://attack.mitre.org/techniques/T0886/"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    # MERGE key: mitre_id — T0822 is SHARED with Colonial Pipeline
+    - technique_id: "TEC-T0822"
+      mitre_id: "T0822"
+      name: "External Remote Services"
+      platform: "ICS"
+      tactic: "initial-access"
+      description: "Exploitation of internet-facing remote services for initial network access"
+      source: "MITRE ATT&CK ICS v14"
+      source_id_or_url: "https://attack.mitre.org/techniques/T0822/"
+      evidence_class: "supported_inference"
+      confidence: 0.8
+      license: "CYB-17 v1.1"
+
+  Vulnerability:
+    - vuln_id: "VUL-CVE7522"
+      cve_id: "CVE-2018-7522"
+      name: "Triconex SIS Buffer Overflow"
+      cvss_v3_score: 9.8
+      description: "Buffer overflow in Triconex Tricon Model 10 firmware allowing remote code execution via TriStation protocol"
+      affected_product: "Schneider Electric Triconex Tricon"
+      source: "NVD"
+      source_id_or_url: "https://nvd.nist.gov/vuln/detail/CVE-2018-7522"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - vuln_id: "VUL-CVE0952"
+      cve_id: "CVE-2018-10952"
+      name: "Triconex SIS Remote Access"
+      cvss_v3_score: 8.1
+      description: "Unauthorized remote access vulnerability in Triconex SIS allowing unauthenticated commands via TriStation protocol"
+      affected_product: "Schneider Electric Triconex"
+      source: "NVD"
+      source_id_or_url: "https://nvd.nist.gov/vuln/detail/CVE-2018-10952"
+      evidence_class: "documented_fact"
+      confidence: 0.85
+      license: "CYB-17 v1.1"
+
+  Weakness:
+    - weakness_id: "WEK-CWE122"
+      cwe_id: "CWE-122"
+      name: "Heap-Based Buffer Overflow"
+      abstraction: "Base"
+      description: "Buffer overflow on heap area enables arbitrary code execution in Triconex SIS firmware"
+      source: "MITRE CWE"
+      source_id_or_url: "https://cwe.mitre.org/data/definitions/122.html"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - weakness_id: "WEK-CWE306"
+      cwe_id: "CWE-306"
+      name: "Missing Authentication for Critical Function"
+      abstraction: "Base"
+      description: "TriStation protocol lacks authentication — allows any network-reachable host to send control commands to Triconex SIS"
+      source: "MITRE CWE"
+      source_id_or_url: "https://cwe.mitre.org/data/definitions/306.html"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    # NOTE: CWE-119 (abstraction=Class) removed — fails granularity.py MAX_ABSTRACTION_LEVEL="Base".
+    # CWE-122 (Heap-Based Buffer Overflow, abstraction=Base) above already covers this at the correct level.
+
+  Attack_Pattern:
+    - pattern_id: "CAP-186"
+      capec_id: "CAPEC-186"
+      name: "Malicious Software Update"
+      description: "Injecting malicious code into a trusted software update mechanism (TRITON firmware update to SIS)"
+      source: "CAPEC"
+      source_id_or_url: "https://capec.mitre.org/data/definitions/186.html"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - pattern_id: "CAP-440"
+      capec_id: "CAPEC-440"
+      name: "Hardware Integrity Attack"
+      description: "Manipulation of hardware control logic by injecting malicious firmware into safety controllers"
+      source: "CAPEC"
+      source_id_or_url: "https://capec.mitre.org/data/definitions/440.html"
+      evidence_class: "supported_inference"
+      confidence: 0.8
+      license: "CYB-17 v1.1"
+
+    - pattern_id: "CAP-25"
+      capec_id: "CAPEC-25"
+      name: "Forced Deadlock"
+      description: "Exploiting race conditions in SIS failsafe logic causing deadlock / undefined behavior"
+      source: "CAPEC"
+      source_id_or_url: "https://capec.mitre.org/data/definitions/25.html"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+  IT_System:
+    # ITS-AD: SHARED with Colonial Pipeline
+    - system_id: "ITS-AD"
+      name: "Active Directory"
+      system_type: "ad"
+      purdue_level: 4
+      description: "Enterprise Active Directory server; lateral movement pivot via AD authentication"
+      source: "CYB-15 v2.0"
+      source_id_or_url: "internal"
+      evidence_class: "supported_inference"
+      confidence: 0.8
+      license: "CYB-17 v1.1"
+
+    # ITS-EMAIL: SHARED with German Steel Mill
+    - system_id: "ITS-EMAIL"
+      name: "Email Server"
+      system_type: "email"
+      purdue_level: 4
+      description: "Corporate email server — spearphishing delivery vector for both TRITON and German Steel Mill attacks"
+      source: "FireEye TRITON report"
+      source_id_or_url: "internal"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    # ITS-JMP: SHARED with Colonial Pipeline
+    - system_id: "ITS-JMP"
+      name: "Jump Host"
+      system_type: "jump_host"
+      purdue_level: 4
+      description: "Remote access jump host used as lateral movement pivot between zones"
+      source: "CYB-15 v2.0"
+      source_id_or_url: "internal"
+      evidence_class: "supported_inference"
+      confidence: 0.8
+      license: "CYB-17 v1.1"
+
+    # ITS-C2: SHARED with Stuxnet
+    - system_id: "ITS-C2"
+      name: "C2 Server"
+      system_type: "server"
+      purdue_level: 5
+      description: "Command and control server for exfiltration and malware tasking"
+      source: "CYB-15 v2.0"
+      source_id_or_url: "internal"
+      evidence_class: "supported_inference"
+      confidence: 0.8
+      license: "CYB-17 v1.1"
+
+    - system_id: "ITS-EWS"
+      name: "Engineering Workstation (IT side)"
+      system_type: "workstation"
+      purdue_level: 4
+      description: "Dual-homed EWS — IT-side network interface. Connected to both enterprise IT and Triconex safety network; the key bridge mechanism for TRITON."
+      source: "FireEye TRITON report"
+      source_id_or_url: "internal"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"

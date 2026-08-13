@@ -1,0 +1,61 @@
+# data/kg_data/shared/network_zones.yaml
+# 6 Network_Zone nodes — Purdue Model L0-L5 (CYB-12 §III.7)
+# Load SECOND after instructional_concepts.yaml (CYB-25 §IV)
+# MERGE key: zone_id
+# Source: CYB-15 v2.0 + IEC 62443 / Purdue Reference Model
+
+nodes:
+  Network_Zone:
+    - zone_id: "NZ-INET"
+      name: "Internet / WAN"
+      zone_type: "internet"
+      purdue_level: 5
+      description: "External internet and wide-area networks; untrusted zone"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - zone_id: "NZ-CORP"
+      name: "Enterprise Network"
+      zone_type: "enterprise"
+      purdue_level: 4
+      description: "Corporate IT network; business systems, email, AD (Purdue L4)"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - zone_id: "NZ-DMZ"
+      name: "DMZ"
+      zone_type: "dmz"
+      purdue_level: 4
+      description: "Demilitarized zone between enterprise and control networks (Purdue L3.5)"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - zone_id: "NZ-CTRL"
+      name: "Control Network"
+      zone_type: "control"
+      purdue_level: 2
+      description: "OT control network; SCADA, HMI, historian (Purdue L2-L3)"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - zone_id: "NZ-FIELD"
+      name: "Field Bus / Safety Net"
+      zone_type: "field"
+      purdue_level: 1
+      description: "Field devices and safety instrumented systems (Purdue L0-L1)"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - zone_id: "NZ-PIPE"
+      name: "Pipeline OT Network"
+      zone_type: "pipeline"
+      purdue_level: 3
+      description: "Pipeline supervisory control network; Colonial Pipeline specific (Purdue L3)"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"

@@ -1,0 +1,100 @@
+# data/kg_data/stuxnet/stuxnet_physical.yaml
+# Stuxnet — Physical Plane nodes
+
+nodes:
+
+  Bridge_Mechanism:
+    - bridge_id: "BRG-USB"
+      name: "USB Air-Gap Bypass"
+      bridge_type: "air_gap"
+      description: "Infected USB drives used to cross the Natanz uranium enrichment facility's complete air-gap isolation. Carried by unknowing contractors from infected external systems into the isolated OT environment."
+      table1_ref: "C1.3"
+      source: "Symantec W32.Stuxnet Dossier v1.4"
+      source_id_or_url: "https://docs.broadcom.com/doc/security-response-w32-stuxnet-dossier-11-en"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+  OT_System:
+    - system_id: "OTS-PLC"
+      name: "Siemens S7-315 PLC"
+      system_type: "plc"
+      purdue_level: 1
+      vendor: "Siemens"
+      model: "S7-315-2"
+      description: "Siemens SIMATIC S7-315 PLC controlling IR-1 centrifuge cascade rotation via frequency converters. Stuxnet's primary physical target — injected OB35/DB89 blocks to manipulate rotation speed."
+      source: "Symantec W32.Stuxnet Dossier"
+      source_id_or_url: "https://docs.broadcom.com/doc/security-response-w32-stuxnet-dossier-11-en"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - system_id: "OTS-SCADA"
+      name: "Siemens WinCC SCADA Server"
+      system_type: "scada"
+      purdue_level: 2
+      vendor: "Siemens"
+      description: "Siemens WinCC v6.2 SCADA with hardcoded SQL credentials (CVE-2010-2772) — compromised by Stuxnet to spread via Step 7 project files and intercept HMI data streams."
+      source: "Symantec W32.Stuxnet Dossier"
+      source_id_or_url: "internal"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    - system_id: "OTS-FREQ"
+      name: "Frequency Converter Drives"
+      system_type: "plc"
+      purdue_level: 1
+      vendor: "Fararo Paya / Vacon"
+      description: "Variable frequency drives from Iranian (Fararo Paya) and Finnish (Vacon) manufacturers controlling centrifuge rotor speed. Stuxnet specifically targeted drives running at 807-1210 Hz — the signature of IR-1 centrifuges."
+      source: "Symantec W32.Stuxnet Dossier"
+      source_id_or_url: "internal"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+  Physical_Process:
+    - process_id: "PHY-CENT"
+      name: "Uranium Enrichment Centrifuge Cascade"
+      proc_type: "nuclear"
+      description: "IR-1 gas centrifuge cascades at Natanz Fuel Enrichment Plant (FEP), Iran. ~8,700 centrifuges enriching UF6 gas. Stuxnet destroyed ~1,000 by alternating rotor speeds between 1,410 Hz and 2 Hz."
+      source: "Symantec W32.Stuxnet Dossier + Langner Communications"
+      source_id_or_url: "https://docs.broadcom.com/doc/security-response-w32-stuxnet-dossier-11-en"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - process_id: "PHY-FREQ"
+      name: "Centrifuge Frequency Control"
+      proc_type: "nuclear"
+      description: "Precision frequency regulation system maintaining centrifuge rotors at exactly 1,064 Hz nominal speed. Stuxnet intermittently commanded 1,410 Hz (overspeed) then 2 Hz (near-stop) to stress-fracture rotors."
+      source: "Symantec W32.Stuxnet Dossier"
+      source_id_or_url: "internal"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+  Consequence:
+    - consequence_id: "CON-CENT"
+      name: "~1,000 Centrifuges Physically Destroyed"
+      consequence_type: "direct_manipulation"
+      severity: "critical"
+      realized: true
+      description: "Approximately 1,000 of 8,700 IR-1 centrifuges physically destroyed by mechanical rotor fracture due to Stuxnet-induced speed manipulation. Set back Iran's nuclear program by an estimated 1-2 years."
+      source: "Institute for Science and International Security (ISIS)"
+      source_id_or_url: "https://www.isis-online.org"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    - consequence_id: "CON-VIEW"
+      name: "Operator View Manipulation"
+      consequence_type: "manipulation_of_view"
+      severity: "high"
+      realized: true
+      description: "Stuxnet replayed 21 seconds of pre-recorded 'normal' SCADA sensor data in a loop while physically destroying centrifuges. Operators saw normal readings for months. First documented replay attack in ICS history."
+      source: "Symantec W32.Stuxnet Dossier"
+      source_id_or_url: "https://docs.broadcom.com/doc/security-response-w32-stuxnet-dossier-11-en"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"

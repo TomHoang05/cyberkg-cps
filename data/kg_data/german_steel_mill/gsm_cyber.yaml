@@ -1,0 +1,100 @@
+# data/kg_data/german_steel_mill/gsm_cyber.yaml
+# German Steel Mill Attack (2014) — Cyber Plane nodes
+# Source: German BSI Annual Report 2014, CYB-15 v2.0, CYB-17 v1.1
+# NOTE: T1566, T0873, T0831 are SHARED with other cases — MERGE ensures single Neo4j node
+
+nodes:
+
+  Attack:
+    - attack_id: "ATK-GSM-001"
+      name: "German Steel Mill Blast Furnace Attack"
+      year: 2014
+      industry_sector: "steel_manufacturing"
+      nation_state: false
+      actor: "Unknown APT (reported by German BSI)"
+      bridge_type: "structural"
+      description: "Sophisticated cyberattack on an unnamed German steel manufacturer (disclosed in German BSI annual report 2014). Spearphishing gained IT foothold; lateral movement through flat network to OT; blast furnace control systems manipulated causing uncontrolled shutdown and massive physical damage. First publicly confirmed cyberattack causing significant physical damage to industrial equipment outside nuclear sector."
+      kill_chain_summary: "Spearphishing → office workstation → flat network lateral movement → OT infiltration → blast furnace parameter manipulation → uncontrolled shutdown → physical damage"
+      source: "German BSI Annual Report 2014"
+      source_id_or_url: "https://www.bsi.bund.de/DE/Service-Navi/Publikationen/Lageberichte/lageberichte_node.html"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+  ATT_CK_Technique:
+    # TEC-T1566: SHARED with TRITON — MERGE key: mitre_id = T1566.001
+    - technique_id: "TEC-T1566"
+      mitre_id: "T1566.001"
+      name: "Spearphishing Attachment"
+      platform: "Enterprise"
+      tactic: "initial-access"
+      description: "Targeted spearphishing emails with malicious attachments sent to German steel mill employees. Initial compromise of office IT workstation. Also the initial access vector in TRITON attack."
+      source: "German BSI Annual Report 2014"
+      source_id_or_url: "https://attack.mitre.org/techniques/T1566/001/"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    # TEC-T0873: SHARED with Stuxnet — MERGE key: mitre_id = T0873
+    - technique_id: "TEC-T0873"
+      mitre_id: "T0873"
+      name: "Project File Infection"
+      platform: "ICS"
+      tactic: "execution"
+      description: "Modification of blast furnace control system project/configuration files to alter operational parameters. Shares technique pattern with Stuxnet's PLC project file infection."
+      source: "German BSI Annual Report 2014"
+      source_id_or_url: "https://attack.mitre.org/techniques/T0873/"
+      evidence_class: "supported_inference"
+      confidence: 0.8
+      license: "CYB-17 v1.1"
+
+    # TEC-T0831: SHARED with Stuxnet — MERGE key: mitre_id = T0831
+    - technique_id: "TEC-T0831"
+      mitre_id: "T0831"
+      name: "Manipulation of Control"
+      platform: "ICS"
+      tactic: "impact"
+      description: "Direct manipulation of blast furnace control parameters; altered temperatures and pressures making controlled shutdown impossible, resulting in massive physical damage to furnace components."
+      source: "German BSI Annual Report 2014"
+      source_id_or_url: "https://attack.mitre.org/techniques/T0831/"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+  # NOTE: No Vulnerability/Weakness/Attack_Pattern nodes for GSM — per CYB-25 §T038
+  # (No CVE/CWE/CAPEC attributed to German Steel Mill in canonical data sources)
+
+  IT_System:
+    - system_id: "ITS-WRK1"
+      name: "Office Workstation A (GSM Target)"
+      system_type: "workstation"
+      purdue_level: 4
+      description: "German steel mill office workstation — initial spearphishing compromise target. Entry point to flat corporate network."
+      source: "German BSI Annual Report 2014"
+      source_id_or_url: "internal"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    # ITS-EMAIL: SHARED with TRITON
+    - system_id: "ITS-EMAIL"
+      name: "Email Server"
+      system_type: "email"
+      purdue_level: 4
+      description: "Corporate email server — spearphishing delivery vector"
+      source: "CYB-15 v2.0"
+      source_id_or_url: "internal"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - system_id: "ITS-FW"
+      name: "Enterprise Firewall (Insufficient)"
+      system_type: "firewall"
+      purdue_level: 5
+      description: "Steel mill enterprise firewall with insufficient IT-OT segmentation rules — flat network allowed lateral movement from office to production OT without meaningful inspection."
+      source: "German BSI Annual Report 2014"
+      source_id_or_url: "internal"
+      evidence_class: "documented_fact"
+      confidence: 0.85
+      license: "CYB-17 v1.1"

@@ -1,0 +1,485 @@
+# data/kg_data/stuxnet/stuxnet_relationships.yaml
+# Stuxnet — all relationships
+
+relationships:
+
+  # Attack → Techniques (order follows kill chain: T1091→T1543→T1055→T0847→T0873→T0831→T0832)
+  - from_type: "Attack"
+    from_id: "ATK-STX-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T1091"
+    properties:
+      step_order: 1
+      phase: "initial-access"
+      evidence_class: "documented_fact"
+
+  - from_type: "Attack"
+    from_id: "ATK-STX-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T1543"
+    properties:
+      step_order: 2
+      phase: "persistence"
+      evidence_class: "documented_fact"
+
+  - from_type: "Attack"
+    from_id: "ATK-STX-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T1055"
+    properties:
+      step_order: 3
+      phase: "execution"
+      evidence_class: "documented_fact"
+
+  - from_type: "Attack"
+    from_id: "ATK-STX-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0847"
+    properties:
+      step_order: 4
+      phase: "initial-access"
+      evidence_class: "documented_fact"
+
+  - from_type: "Attack"
+    from_id: "ATK-STX-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0873"
+    properties:
+      step_order: 5
+      phase: "execution"
+      evidence_class: "documented_fact"
+
+  - from_type: "Attack"
+    from_id: "ATK-STX-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0831"
+    properties:
+      step_order: 6
+      phase: "impact"
+      evidence_class: "documented_fact"
+
+  - from_type: "Attack"
+    from_id: "ATK-STX-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0832"
+    properties:
+      step_order: 7
+      phase: "impact"
+      evidence_class: "documented_fact"
+
+  # Technique ordering (kill chain)
+  # Main chain:    T1091 → T1543 → T1055 → T0847 → T0873 → T0831 → T0832
+  # Stealth branch:                                  T0873 → T0832 (direct)
+  # Per CYB-13 §VIII attack chain (7 edges)
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1091"
+    type: "TECHNIQUE_ORDER"
+    to_type: "ATT_CK_Technique"
+    to_id: "T1543"
+    properties:
+      step_order: 1
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1543"
+    type: "TECHNIQUE_ORDER"
+    to_type: "ATT_CK_Technique"
+    to_id: "T1055"
+    properties:
+      step_order: 2
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1055"
+    type: "TECHNIQUE_ORDER"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0847"
+    properties:
+      step_order: 3
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0847"
+    type: "TECHNIQUE_ORDER"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0873"
+    properties:
+      step_order: 4
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0873"
+    type: "TECHNIQUE_ORDER"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0831"
+    properties:
+      step_order: 5
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0873"
+    type: "TECHNIQUE_ORDER"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0832"
+    properties:
+      step_order: 5
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0831"
+    type: "TECHNIQUE_ORDER"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0832"
+    properties:
+      step_order: 6
+
+  # Vulnerability exploitation
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1091"
+    type: "EXPLOITS"
+    to_type: "Vulnerability"
+    to_id: "CVE-2010-2568"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1543"
+    type: "EXPLOITS"
+    to_type: "Vulnerability"
+    to_id: "CVE-2010-2743"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1055"
+    type: "EXPLOITS"
+    to_type: "Vulnerability"
+    to_id: "CVE-2010-2772"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1091"
+    type: "EXPLOITS"
+    to_type: "Vulnerability"
+    to_id: "CVE-2010-2729"
+    properties:
+      evidence_class: "documented_fact"
+
+  # Weakness chains
+  - from_type: "Vulnerability"
+    from_id: "CVE-2010-2568"
+    type: "ROOT_CAUSE"
+    to_type: "Weakness"
+    to_id: "CWE-20"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Vulnerability"
+    from_id: "CVE-2010-2743"
+    type: "ROOT_CAUSE"
+    to_type: "Weakness"
+    to_id: "CWE-787"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Vulnerability"
+    from_id: "CVE-2010-2772"
+    type: "ROOT_CAUSE"
+    to_type: "Weakness"
+    to_id: "CWE-798"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Vulnerability"
+    from_id: "CVE-2010-2729"
+    type: "ROOT_CAUSE"
+    to_type: "Weakness"
+    to_id: "CWE-287"
+    properties:
+      evidence_class: "documented_fact"
+
+  # CWE → CAPEC
+  - from_type: "Weakness"
+    from_id: "CWE-20"
+    type: "MAPS_TO_PATTERN"
+    to_type: "Attack_Pattern"
+    to_id: "CAPEC-210"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Weakness"
+    from_id: "CWE-798"
+    type: "MAPS_TO_PATTERN"
+    to_type: "Attack_Pattern"
+    to_id: "CAPEC-191"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Weakness"
+    from_id: "CWE-787"
+    type: "MAPS_TO_PATTERN"
+    to_type: "Attack_Pattern"
+    to_id: "CAPEC-122"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Weakness"
+    from_id: "CWE-287"
+    type: "MAPS_TO_PATTERN"
+    to_type: "Attack_Pattern"
+    to_id: "CAPEC-554"
+    properties:
+      evidence_class: "documented_fact"
+
+  # Bridge
+  - from_type: "Attack"
+    from_id: "ATK-STX-001"
+    type: "USES_BRIDGE"
+    to_type: "Bridge_Mechanism"
+    to_id: "BRG-USB"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Bridge_Mechanism"
+    from_id: "BRG-USB"
+    type: "BRIDGES_TO"
+    to_type: "Network_Zone"
+    to_id: "NZ-CORP"
+    properties:
+      side: "it_side"
+
+  - from_type: "Bridge_Mechanism"
+    from_id: "BRG-USB"
+    type: "BRIDGES_TO"
+    to_type: "Network_Zone"
+    to_id: "NZ-CTRL"
+    properties:
+      side: "ot_side"
+
+  # IT/OT System locations
+  - from_type: "OT_System"
+    from_id: "OTS-PLC"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-FIELD"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "OT_System"
+    from_id: "OTS-SCADA"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-CTRL"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "IT_System"
+    from_id: "ITS-HIST"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-CORP"
+    properties:
+      evidence_class: "supported_inference"
+
+  - from_type: "IT_System"
+    from_id: "ITS-C2"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-INET"
+    properties:
+      evidence_class: "documented_fact"
+
+  # OT → Physical Process
+  - from_type: "OT_System"
+    from_id: "OTS-PLC"
+    type: "AFFECTS_PROCESS"
+    to_type: "Physical_Process"
+    to_id: "PHY-CENT"
+    properties:
+      evidence_class: "documented_fact"
+
+  # OTS-FREQ (frequency converter drives) location + physical control
+  - from_type: "OT_System"
+    from_id: "OTS-FREQ"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-FIELD"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "OT_System"
+    from_id: "OTS-FREQ"
+    type: "AFFECTS_PROCESS"
+    to_type: "Physical_Process"
+    to_id: "PHY-FREQ"
+    properties:
+      evidence_class: "documented_fact"
+
+  # Techniques → IT/OT targets
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0831"
+    type: "TARGETS"
+    to_type: "OT_System"
+    to_id: "OTS-PLC"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0832"
+    type: "TARGETS"
+    to_type: "OT_System"
+    to_id: "OTS-SCADA"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1091"
+    type: "TARGETS"
+    to_type: "IT_System"
+    to_id: "ITS-HIST"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0873"
+    type: "TARGETS"
+    to_type: "OT_System"
+    to_id: "OTS-PLC"
+    properties:
+      evidence_class: "documented_fact"
+
+  # Consequences
+  - from_type: "Attack"
+    from_id: "ATK-STX-001"
+    type: "CAUSES_CONSEQUENCE"
+    to_type: "Consequence"
+    to_id: "CON-CENT"
+    properties:
+      direct: true
+      evidence_class: "documented_fact"
+
+  - from_type: "Attack"
+    from_id: "ATK-STX-001"
+    type: "CAUSES_CONSEQUENCE"
+    to_type: "Consequence"
+    to_id: "CON-VIEW"
+    properties:
+      direct: true
+      evidence_class: "documented_fact"
+
+  - from_type: "Consequence"
+    from_id: "CON-CENT"
+    type: "CONSEQUENCE_TYPE"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C21"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Consequence"
+    from_id: "CON-VIEW"
+    type: "CONSEQUENCE_TYPE"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C24"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Bridge_Mechanism"
+    from_id: "BRG-USB"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C13"
+    properties:
+      evidence_class: "documented_fact"
+
+  # Technique → Instructional Concept (Stuxnet-only techniques)
+  # C1.3 Air-Gap Bypassing: USB removable media crosses physical isolation
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1091"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C13"
+    properties:
+      mapping_rationale: "USB Removable Media is the canonical air-gap bypass vector; teaches C1.3"
+      evidence_class: "documented_fact"
+
+  # C1.4 Structural Exposure: OT lacked code integrity controls enabling rootkit install
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1543"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C14"
+    properties:
+      mapping_rationale: "Rootkit install succeeded because OT host had no code integrity enforcement; teaches C1.4"
+      evidence_class: "documented_fact"
+
+  # C1.2 Unauthorized Bridges: DLL injection creates unsanctioned path inside trusted process
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1055"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C12"
+    properties:
+      mapping_rationale: "Process injection hijacked WinCC/Step7 trusted context as unauthorized execution path; teaches C1.2"
+      evidence_class: "documented_fact"
+
+  # C2.4 View Manipulation: SCADA replay hid centrifuge damage from operators
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0832"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C24"
+    properties:
+      mapping_rationale: "Sensor replay fed false-normal SCADA readings while centrifuges were destroyed; teaches C2.4"
+      evidence_class: "documented_fact"
+
+  # AI
+  - from_type: "AI_Component"
+    from_id: "AIC-STX"
+    type: "AI_INVOLVED_IN"
+    to_type: "Attack"
+    to_id: "ATK-STX-001"
+    properties:
+      role: "hypothetical_defender"
+      evidence_class: "instructional_extension"
+
+  - from_type: "AI_Attack_Surface"
+    from_id: "AIS-PP"
+    type: "AI_ATTACK_VIA"
+    to_type: "AI_Component"
+    to_id: "AIC-STX"
+    properties:
+      evidence_class: "instructional_extension"
+
+  # Human
+  - from_type: "Human_Actor"
+    from_id: "HUM-NAT"
+    type: "PERFORMS_ACTION"
+    to_type: "Human_Action"
+    to_id: "ACT-NAT"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Human_Actor"
+    from_id: "HUM-NAT"
+    type: "HUMAN_ROLE"
+    to_type: "Attack"
+    to_id: "ATK-STX-001"
+    properties:
+      role_type: "victim"
+      evidence_class: "documented_fact"
+
+  # AI Resilience surface AIS-DT → AIC-STX (fix 1.1)
+  # Rationale: AIC-STX is a hypothetical LSTM detector monitoring centrifuge frequency.
+  # "If trained on IT traffic instead of OT protocol behavior it would generalize poorly."
+  # AIS-EP NOT added: Stuxnet's mechanism is replay attack causing false negative (not
+  # false positive) — adding AIS-EP to the same AIC-STX would create self-contradictory
+  # narrative.
+  - from_type: "AI_Attack_Surface"
+    from_id: "AIS-DT"
+    type: "AI_ATTACK_VIA"
+    to_type: "AI_Component"
+    to_id: "AIC-STX"
+    properties:
+      evidence_class: "instructional_extension"

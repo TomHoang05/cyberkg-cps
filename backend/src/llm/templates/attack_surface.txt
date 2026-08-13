@@ -1,0 +1,19 @@
+Given the following structured data from the CyberKG-CPS knowledge graph about the {attack} attack,
+generate an Attack Surface Narrative for educational use.
+
+## Attack Context
+{attack}
+
+## Systems Involved (from knowledge graph)
+{chain}
+
+## Instructional Output Requirements
+- Describe the attack surface across all affected Purdue levels (0-5)
+- Identify which systems were IT (Cyber plane) vs OT (Physical plane)
+- Highlight the network zone boundaries that were relevant
+- Note any network architecture weaknesses
+- Map to CyberKG-CPS Table 1 categories where applicable
+- Include a "Key Takeaway" paragraph suitable for Module 1
+
+## Data Provenance
+{provenance_summary}

@@ -1,0 +1,29 @@
+Given the following structured data from the CyberKG-CPS knowledge graph about the {attack} attack,
+generate an AI & Human Role Report for educational use.
+
+## Attack Context
+{attack}
+
+## Attack Chain (for reference)
+{chain}
+
+## AI Components Involved
+{ai_components}
+
+## Human Actors and Actions
+{human_actors}
+
+## Instructional Output Requirements
+- Describe the role(s) that human actors played in this attack (e.g., operator, victim of social
+  engineering, decision-maker), referencing the Human plane
+- Describe any AI components involved, their function, and how they relate to the AI attack
+  surface or AI resilience categories in CyberKG-CPS Table 1 (Indirect Prompt Injection,
+  Physical Perturbation, Domain Transfer/Distribution Shift, Error Propagation/Cascading Failure)
+- If no AI components are documented for this attack, follow the sparse-plane handling rule:
+  state explicitly that no AI-layer components were identified, then proceed
+- Include a "Human-AI Decision Workflow" paragraph suitable for Module 5
+- Include a "Trust and Oversight" paragraph discussing how operators interpreted (or could have
+  interpreted) available evidence
+
+## Data Provenance
+{provenance_summary}

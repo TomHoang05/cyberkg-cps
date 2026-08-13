@@ -1,0 +1,30 @@
+# data/kg_data/german_steel_mill/gsm_human.yaml
+# German Steel Mill — Human Plane nodes
+
+nodes:
+
+  Human_Actor:
+    - actor_id: "HUM-GSM"
+      name: "Steel Mill Production Employee"
+      actor_type: "operator"
+      expertise_level: "intermediate"
+      was_deceived: true
+      description: "German steel mill office employee who opened a malicious spearphishing attachment, providing the initial foothold. Not security-trained; the social engineering approach exploited standard business communications."
+      source: "German BSI Annual Report 2014"
+      source_id_or_url: "https://www.bsi.bund.de/DE/Service-Navi/Publikationen/Lageberichte/lageberichte_node.html"
+      evidence_class: "documented_fact"
+      confidence: 0.85
+      license: "CYB-17 v1.1"
+
+  Human_Action:
+    - action_id: "ACT-GSM"
+      name: "Opened Spearphishing PDF Attachment"
+      action_type: "social_engineering_target"
+      outcome: "attack_progressed"
+      description: "Steel mill office employee opened a targeted spearphishing email attachment, executing the malware that gave attackers their initial IT network foothold. The subsequent lateral movement through the flat network required no further human interaction."
+      lesson: "Human element as initial entry point — phishing awareness training and email filtering critical even in industrial environments. Flat network meant single compromise enabled OT access."
+      source: "German BSI Annual Report 2014"
+      source_id_or_url: "https://www.bsi.bund.de/DE/Service-Navi/Publikationen/Lageberichte/lageberichte_node.html"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"

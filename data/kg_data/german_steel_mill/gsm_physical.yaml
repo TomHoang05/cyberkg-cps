@@ -1,0 +1,79 @@
+# data/kg_data/german_steel_mill/gsm_physical.yaml
+# German Steel Mill — Physical Plane nodes
+
+nodes:
+
+  Bridge_Mechanism:
+    - bridge_id: "BRG-FLAT"
+      name: "Flat Network Structural Exposure"
+      bridge_type: "structural"
+      description: "No meaningful IT-OT network segmentation in the steel mill — a single flat network allowed unrestricted lateral movement from compromised office workstations directly to blast furnace control systems (DCS/HMI) without traversing a proper DMZ or industrial firewall."
+      table1_ref: "C1.4"
+      source: "German BSI Annual Report 2014"
+      source_id_or_url: "https://www.bsi.bund.de/DE/Service-Navi/Publikationen/Lageberichte/lageberichte_node.html"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+  OT_System:
+    - system_id: "OTS-HMI"
+      name: "Blast Furnace HMI"
+      system_type: "hmi"
+      purdue_level: 2
+      vendor: "undisclosed"
+      description: "Human-Machine Interface for blast furnace control — operators' primary interface for monitoring and controlling furnace temperature, pressure, and material flow. Compromised to manipulate control parameters."
+      source: "German BSI Annual Report 2014"
+      source_id_or_url: "internal"
+      evidence_class: "documented_fact"
+      confidence: 0.85
+      license: "CYB-17 v1.1"
+
+    - system_id: "OTS-DCS"
+      name: "Distributed Control System (Blast Furnace)"
+      system_type: "dcs"
+      purdue_level: 2
+      vendor: "undisclosed"
+      description: "DCS managing blast furnace process control; attacker modified control parameters causing uncontrolled shutdown conditions. Physical damage resulted from inability to safely cool and shutdown the furnace."
+      source: "German BSI Annual Report 2014"
+      source_id_or_url: "internal"
+      evidence_class: "documented_fact"
+      confidence: 0.85
+      license: "CYB-17 v1.1"
+
+  Physical_Process:
+    - process_id: "PHY-FURN"
+      name: "Blast Furnace Operation"
+      proc_type: "steel"
+      description: "Steel blast furnace process — continuous high-temperature (1500°C+) iron smelting operation. Requires carefully controlled shutdown sequences; abrupt shutdown causes thermal shock and severe equipment damage."
+      source: "German BSI Annual Report 2014"
+      source_id_or_url: "https://www.bsi.bund.de/DE/Service-Navi/Publikationen/Lageberichte/lageberichte_node.html"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - process_id: "PHY-COOL"
+      name: "Furnace Cooling and Safety Systems"
+      proc_type: "steel"
+      description: "Furnace cooling circuits and safety interlocks — the systems that enable safe controlled shutdown. Disruption of these systems by the attacker made orderly shutdown impossible."
+      source: "German BSI Annual Report 2014"
+      source_id_or_url: "internal"
+      evidence_class: "supported_inference"
+      confidence: 0.8
+      license: "CYB-17 v1.1"
+
+  Consequence:
+    - consequence_id: "CON-FURN"
+      name: "Blast Furnace Physical Damage"
+      consequence_type: "direct_manipulation"
+      severity: "critical"
+      realized: true
+      description: "Massive physical damage to blast furnace due to uncontrolled shutdown — thermal shock, refractory damage, structural damage to furnace components. Estimated repair cost in millions of EUR. Second confirmed case (after Stuxnet) of cyber attack causing significant physical industrial damage."
+      financial_impact_eur: 10000000
+      source: "German BSI Annual Report 2014"
+      source_id_or_url: "https://www.bsi.bund.de/DE/Service-Navi/Publikationen/Lageberichte/lageberichte_node.html"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    # NOTE: CON-PROD removed — no CAUSES_CONSEQUENCE or CONSEQUENCE_TYPE relationship
+    # (canonical GSM consequence = CON-FURN only; CAUSES_CONSEQUENCE count = 1 per CYB-25 §T038)

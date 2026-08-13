@@ -1,0 +1,244 @@
+# data/kg_data/german_steel_mill/gsm_relationships.yaml
+# German Steel Mill — all relationships
+
+relationships:
+
+  # Attack → Techniques
+  - from_type: "Attack"
+    from_id: "ATK-GSM-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T1566.001"
+    properties:
+      step_order: 1
+      phase: "initial-access"
+      evidence_class: "documented_fact"
+
+  - from_type: "Attack"
+    from_id: "ATK-GSM-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0873"
+    properties:
+      step_order: 2
+      phase: "execution"
+      evidence_class: "supported_inference"
+
+  - from_type: "Attack"
+    from_id: "ATK-GSM-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0831"
+    properties:
+      step_order: 3
+      phase: "impact"
+      evidence_class: "documented_fact"
+
+  # Technique ordering
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1566.001"
+    type: "TECHNIQUE_ORDER"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0873"
+    properties:
+      step_order: 1
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0873"
+    type: "TECHNIQUE_ORDER"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0831"
+    properties:
+      step_order: 2
+
+  # IT/OT System targets
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1566.001"
+    type: "TARGETS"
+    to_type: "IT_System"
+    to_id: "ITS-EMAIL"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1566.001"
+    type: "TARGETS"
+    to_type: "IT_System"
+    to_id: "ITS-WRK1"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0831"
+    type: "TARGETS"
+    to_type: "OT_System"
+    to_id: "OTS-DCS"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0873"
+    type: "TARGETS"
+    to_type: "OT_System"
+    to_id: "OTS-DCS"
+    properties:
+      evidence_class: "supported_inference"
+
+  # Network Zone locations
+  - from_type: "IT_System"
+    from_id: "ITS-WRK1"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-CORP"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "IT_System"
+    from_id: "ITS-FW"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-INET"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "OT_System"
+    from_id: "OTS-HMI"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-CTRL"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "OT_System"
+    from_id: "OTS-DCS"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-CTRL"
+    properties:
+      evidence_class: "documented_fact"
+
+  # Bridge
+  - from_type: "Attack"
+    from_id: "ATK-GSM-001"
+    type: "USES_BRIDGE"
+    to_type: "Bridge_Mechanism"
+    to_id: "BRG-FLAT"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Bridge_Mechanism"
+    from_id: "BRG-FLAT"
+    type: "BRIDGES_TO"
+    to_type: "Network_Zone"
+    to_id: "NZ-CORP"
+    properties:
+      side: "it_side"
+
+  - from_type: "Bridge_Mechanism"
+    from_id: "BRG-FLAT"
+    type: "BRIDGES_TO"
+    to_type: "Network_Zone"
+    to_id: "NZ-CTRL"
+    properties:
+      side: "ot_side"
+
+  # Physical (OTS-DCS drives blast furnace; OTS-HMI controls furnace incl. cooling/safety interlocks)
+  - from_type: "OT_System"
+    from_id: "OTS-DCS"
+    type: "AFFECTS_PROCESS"
+    to_type: "Physical_Process"
+    to_id: "PHY-FURN"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "OT_System"
+    from_id: "OTS-HMI"
+    type: "AFFECTS_PROCESS"
+    to_type: "Physical_Process"
+    to_id: "PHY-COOL"
+    properties:
+      evidence_class: "supported_inference"
+
+  # Consequences
+  - from_type: "Attack"
+    from_id: "ATK-GSM-001"
+    type: "CAUSES_CONSEQUENCE"
+    to_type: "Consequence"
+    to_id: "CON-FURN"
+    properties:
+      direct: true
+      evidence_class: "documented_fact"
+
+  - from_type: "Consequence"
+    from_id: "CON-FURN"
+    type: "CONSEQUENCE_TYPE"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C21"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Bridge_Mechanism"
+    from_id: "BRG-FLAT"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C14"
+    properties:
+      evidence_class: "documented_fact"
+
+  # Technique → Instructional Concept
+  # C1.4 Structural Exposure: flat network allowed spearphishing to reach OT
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1566.001"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C14"
+    properties:
+      mapping_rationale: "Spearphishing exploited flat network with no IT-OT segmentation; teaches C1.4"
+      evidence_class: "documented_fact"
+
+  # C2.1 Direct Manipulation: PLC project file modification caused physical furnace damage
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0873"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C21"
+    properties:
+      mapping_rationale: "PLC project file modification directly altered furnace control logic; teaches C2.1"
+      evidence_class: "documented_fact"
+
+  # C2.1 Direct Manipulation: unauthorized control commands overrode furnace setpoints
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0831"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C21"
+    properties:
+      mapping_rationale: "Unauthorized control commands directly caused blast furnace damage; teaches C2.1"
+      evidence_class: "documented_fact"
+
+  # AI (GSM AI_Component has no AI_INVOLVED_IN per CYB-13)
+  - from_type: "AI_Attack_Surface"
+    from_id: "AIS-PP"
+    type: "AI_ATTACK_VIA"
+    to_type: "AI_Component"
+    to_id: "AIC-GSM"
+    properties:
+      evidence_class: "instructional_extension"
+
+  # Human
+  - from_type: "Human_Actor"
+    from_id: "HUM-GSM"
+    type: "PERFORMS_ACTION"
+    to_type: "Human_Action"
+    to_id: "ACT-GSM"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Human_Actor"
+    from_id: "HUM-GSM"
+    type: "HUMAN_ROLE"
+    to_type: "Attack"
+    to_id: "ATK-GSM-001"
+    properties:
+      role_type: "victim"
+      evidence_class: "documented_fact"

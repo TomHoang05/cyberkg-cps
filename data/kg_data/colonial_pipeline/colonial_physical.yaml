@@ -1,0 +1,60 @@
+# data/kg_data/colonial_pipeline/colonial_physical.yaml
+# Colonial Pipeline — Physical Plane nodes
+# Source: CISA AA21-131A, CYB-15 v2.0, CYB-17 v1.1
+# Prerequisite: shared/network_zones.yaml must be loaded first
+# MERGE keys: system_id (OT_System), process_id (Physical_Process),
+#             consequence_id (Consequence), bridge_id (Bridge_Mechanism)
+
+nodes:
+
+  Bridge_Mechanism:
+    - bridge_id: "BRG-VPN"
+      name: "VPN without MFA"
+      bridge_type: "authorized"
+      description: "Corporate VPN gateway — legitimate IT-OT connectivity channel exploited due to missing MFA and unrevoked legacy credentials. Canonical cross-plane entry point for Colonial Pipeline attack."
+      table1_ref: "C1.1"
+      source: "CISA AA21-131A"
+      source_id_or_url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-131a"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+  OT_System:
+    - system_id: "OTS-PIPE"
+      name: "Pipeline SCADA"
+      system_type: "scada"
+      purdue_level: 2
+      description: "Supervisory control and data acquisition system for Colonial's 5,500-mile pipeline distribution network. Voluntarily shut down as precaution."
+      vendor: "undisclosed"
+      source: "CISA AA21-131A"
+      source_id_or_url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-131a"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+  Physical_Process:
+    - process_id: "PHY-FUEL"
+      name: "Pipeline Fuel Distribution"
+      proc_type: "pipeline"
+      description: "US East Coast fuel pipeline distribution — 5,500 miles carrying gasoline, diesel, jet fuel from Gulf Coast to eastern seaboard."
+      source: "CISA AA21-131A"
+      source_id_or_url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-131a"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+  Consequence:
+    # NOTE: CON-SHUT removed — no CAUSES_CONSEQUENCE or CONSEQUENCE_TYPE relationship
+    # (canonical Colonial consequence = CON-FUEL only; CAUSES_CONSEQUENCE count = 1 per CYB-25 §T033)
+
+    - consequence_id: "CON-FUEL"
+      name: "East Coast Fuel Shortage"
+      consequence_type: "indirect_disruption"
+      severity: "critical"
+      realized: true
+      description: "US East Coast gasoline shortage; panic buying; emergency declarations in 18 states. Price spike above $3/gallon. First major pipeline attack to cause civilian energy crisis."
+      source: "CISA AA21-131A"
+      source_id_or_url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-131a"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"

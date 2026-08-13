@@ -1,0 +1,15 @@
+Given the following consequence data from the CyberKG-CPS knowledge graph about {attack},
+generate a Physical Consequences Analysis for educational use.
+
+## Consequence Data
+{consequences}
+
+## Instructional Output Requirements
+- Classify the consequence type using CyberKG-CPS Table 1
+  (direct_manipulation / indirect_disruption / safety_suppression / manipulation_of_view)
+- Describe the physical process that was affected
+- Include a "Cross-Plane Analysis" paragraph
+- Include a "Comparison" paragraph: how does this consequence type differ from the other three?
+
+## Evidence Level
+{provenance_summary}

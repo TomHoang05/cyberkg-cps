@@ -1,0 +1,33 @@
+# data/kg_data/colonial_pipeline/colonial_human.yaml
+# Colonial Pipeline — Human Plane nodes
+# Source: CISA AA21-131A, CYB-15 v2.0, CYB-17 v1.1
+# actor_type values: attacker | defender | decision_maker | operator | engineer | manager
+# NOTE: role_type is a HUMAN_ROLE *relationship* property, NOT a node attribute
+# MERGE keys: actor_id (Human_Actor), action_id (Human_Action)
+
+nodes:
+
+  Human_Actor:
+    - actor_id: "HUM-COL"
+      name: "Colonial Ops Manager"
+      actor_type: "manager"
+      expertise_level: "expert"
+      description: "Colonial Pipeline operations leadership responsible for the decision to voluntarily shut down the OT pipeline to prevent ransomware lateral spread from IT to OT systems."
+      source: "CYB-15 v2.0"
+      source_id_or_url: "internal"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+  Human_Action:
+    - action_id: "ACT-COL"
+      name: "Ordered OT Pipeline Isolation"
+      action_type: "decision"
+      outcome: "attack_contained"
+      description: "Management decision to proactively shut down the entire 5,500-mile pipeline OT system for 6 days as a precautionary measure, preventing potential OT compromise but causing the US East Coast fuel crisis."
+      lesson: "Proactive IT-OT isolation decision contained malware spread but had significant economic consequences — illustrates the IT/OT dependency challenge."
+      source: "CISA AA21-131A"
+      source_id_or_url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-131a"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"

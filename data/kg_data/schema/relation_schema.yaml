@@ -1,0 +1,330 @@
+# data/kg_data/schema/relation_schema.yaml
+# Machine-readable schema for all 17 CyberKG-CPS relationship types
+# Source: CYB-14 v1.1 §VIII, CYB-25 §IV
+# Format: direction is always (from_label)-[:TYPE]->(to_label)
+# loader.py _load_relationships() uses from_type/from_id/type/to_type/to_id/properties
+
+relationship_types:
+
+  # ── TECHNIQUE RELATIONSHIPS ─────────────────────────────────────────────
+
+  USES_TECHNIQUE:
+    type: "USES_TECHNIQUE"
+    from_label: "Attack"
+    to_label: "ATT_CK_Technique"
+    cardinality: "many-to-many"
+    description: "An Attack uses a specific ATT&CK technique in its kill chain."
+    required_properties:
+      - name: step_order
+        type: integer
+        description: "Position in the attack kill chain (1 = initial access)."
+      - name: phase
+        type: string
+        enum: [initial-access, execution, persistence, privilege-escalation,
+               defense-evasion, credential-access, discovery, lateral-movement,
+               collection, command-and-control, exfiltration, impact,
+               inhibit-response-function, impair-process-control]
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+    example:
+      from: "ATK-COL-001"
+      to: "T1078"
+      step_order: 1
+      phase: "initial-access"
+
+  TECHNIQUE_ORDER:
+    type: "TECHNIQUE_ORDER"
+    from_label: "ATT_CK_Technique"
+    to_label: "ATT_CK_Technique"
+    cardinality: "one-to-one (within a case)"
+    description: "Links consecutive ATT&CK techniques to represent kill chain ordering."
+    required_properties:
+      - name: step_order
+        type: integer
+        description: "The step index of the FROM technique (TO is step+1)."
+    notes: "Used for visualization of attack progression. Both directions between shared techniques per case."
+
+  # ── VULNERABILITY / WEAKNESS RELATIONSHIPS ──────────────────────────────
+
+  EXPLOITS:
+    type: "EXPLOITS"
+    from_label: "ATT_CK_Technique"
+    to_label: "Vulnerability"
+    cardinality: "many-to-many"
+    description: "A technique exploits a specific CVE vulnerability."
+    required_properties:
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+    example:
+      from: "T1091"
+      to: "CVE-2010-2568"
+
+  ROOT_CAUSE:
+    type: "ROOT_CAUSE"
+    from_label: "Vulnerability"
+    to_label: "Weakness"
+    cardinality: "many-to-one"
+    description: "A CVE vulnerability's underlying root cause is a CWE weakness."
+    required_properties:
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+    example:
+      from: "CVE-2010-2568"
+      to: "CWE-20"
+    notes: "CWE abstraction level must be 'Base' per CYB-12 §III (granularity.py MAX_ABSTRACTION_LEVEL)."
+
+  MAPS_TO_PATTERN:
+    type: "MAPS_TO_PATTERN"
+    from_label_options:
+      - "ATT_CK_Technique"
+      - "Weakness"
+      - "Attack"
+    to_label: "Attack_Pattern"
+    cardinality: "many-to-many"
+    description: "Maps an attack, technique, or weakness to a CAPEC attack pattern."
+    required_properties:
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+    example:
+      from: "CWE-20"
+      to: "CAPEC-210"
+
+  # ── PHYSICAL LAYER RELATIONSHIPS ─────────────────────────────────────────
+
+  TARGETS:
+    type: "TARGETS"
+    from_label: "ATT_CK_Technique"
+    to_label_options:
+      - "IT_System"
+      - "OT_System"
+    cardinality: "many-to-many"
+    description: "A technique directly targets a specific system."
+    required_properties:
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+    example:
+      from: "T0880"
+      to: "OTS-SIS"
+
+  LOCATED_IN:
+    type: "LOCATED_IN"
+    from_label_options:
+      - "IT_System"
+      - "OT_System"
+    to_label: "Network_Zone"
+    cardinality: "many-to-one"
+    description: "Places a system within its Purdue-model network zone."
+    required_properties:
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+    example:
+      from: "OTS-SIS"
+      to: "NZ-FIELD"
+
+  AFFECTS_PROCESS:
+    type: "AFFECTS_PROCESS"
+    from_label: "OT_System"
+    to_label: "Physical_Process"
+    cardinality: "many-to-many"
+    description: "An OT system controls or monitors a physical process."
+    required_properties:
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+    example:
+      from: "OTS-PLC"
+      to: "PHY-CENT"
+
+  CAUSES_CONSEQUENCE:
+    type: "CAUSES_CONSEQUENCE"
+    from_label: "Attack"
+    to_label: "Consequence"
+    cardinality: "one-to-many"
+    description: "An attack causes one or more physical/operational consequences."
+    required_properties:
+      - name: direct
+        type: boolean
+        description: "true = attack directly caused this; false = secondary/cascading consequence"
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+    example:
+      from: "ATK-STX-001"
+      to: "CON-CENT"
+      direct: true
+
+  # ── BRIDGE RELATIONSHIPS ─────────────────────────────────────────────────
+
+  USES_BRIDGE:
+    type: "USES_BRIDGE"
+    from_label: "Attack"
+    to_label: "Bridge_Mechanism"
+    cardinality: "one-to-one"
+    description: "The attack traverses a specific IT-to-OT bridge mechanism."
+    required_properties:
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+    example:
+      from: "ATK-STX-001"
+      to: "BRG-USB"
+
+  BRIDGES_TO:
+    type: "BRIDGES_TO"
+    from_label: "Bridge_Mechanism"
+    to_label: "Network_Zone"
+    cardinality: "one-to-two"
+    description: >
+      Connects a bridge to the network zones on each side of the IT-OT boundary.
+      Each bridge has exactly two BRIDGES_TO relationships: one with side='it_side'
+      and one with side='ot_side'.
+    required_properties:
+      - name: side
+        type: string
+        enum: [it_side, ot_side]
+    example:
+      from: "BRG-VPN"
+      to: "NZ-INET"
+      side: "it_side"
+
+  # ── INSTRUCTIONAL / EDUCATIONAL RELATIONSHIPS ────────────────────────────
+
+  MAPS_TO_CONCEPT:
+    type: "MAPS_TO_CONCEPT"
+    from_label_options:
+      - "Bridge_Mechanism"
+      - "Consequence"
+      - "AI_Attack_Surface"
+    to_label: "Instructional_Concept"
+    cardinality: "many-to-one"
+    description: >
+      Maps a real attack artifact (bridge, consequence, AI surface) to the
+      educational concept it illustrates. Backbone of the knowledge graph's
+      curriculum integration.
+    required_properties:
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+    example:
+      from: "BRG-VPN"
+      to: "IC-C11"
+
+  CONSEQUENCE_TYPE:
+    type: "CONSEQUENCE_TYPE"
+    from_label: "Consequence"
+    to_label: "Instructional_Concept"
+    cardinality: "many-to-one"
+    description: "Maps a specific attack consequence to its consequence-type concept."
+    required_properties:
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+    example:
+      from: "CON-CENT"
+      to: "IC-C21"
+    notes: "Target IC concept should be M2 module (C2.1, C2.2, C2.3, or C2.4)."
+
+  # ── AI PLANE RELATIONSHIPS ───────────────────────────────────────────────
+
+  AI_INVOLVED_IN:
+    type: "AI_INVOLVED_IN"
+    from_label: "AI_Component"
+    to_label: "Attack"
+    cardinality: "many-to-many"
+    description: "An AI component is (hypothetically) involved in an attack as a defender."
+    required_properties:
+      - name: role
+        type: string
+        enum: [hypothetical_defender]
+        notes: "All AI nodes in MVP are 'hypothetical_defender' — they were not present in the real attack."
+      - name: evidence_class
+        type: string
+        enum: [instructional_extension]
+        notes: "Always instructional_extension for AI_INVOLVED_IN."
+    example:
+      from: "AIC-COL"
+      to: "ATK-COL-001"
+      role: "hypothetical_defender"
+
+  AI_ATTACK_VIA:
+    type: "AI_ATTACK_VIA"
+    from_label: "AI_Attack_Surface"
+    to_label: "AI_Component"
+    cardinality: "many-to-many"
+    description: >
+      An attack surface represents a vulnerability pathway that could be exploited
+      to compromise the AI component's operation.
+    required_properties:
+      - name: evidence_class
+        type: string
+        enum: [instructional_extension]
+    example:
+      from: "AIS-PI"
+      to: "AIC-COL"
+
+  # ── HUMAN PLANE RELATIONSHIPS ────────────────────────────────────────────
+
+  PERFORMS_ACTION:
+    type: "PERFORMS_ACTION"
+    from_label: "Human_Actor"
+    to_label: "Human_Action"
+    cardinality: "one-to-one"
+    description: "A human actor performs a specific action (mistake, detection, decision) during the attack."
+    required_properties:
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+    example:
+      from: "HUM-COL"
+      to: "ACT-COL"
+
+  HUMAN_ROLE:
+    type: "HUMAN_ROLE"
+    from_label: "Human_Actor"
+    to_label: "Attack"
+    cardinality: "many-to-many"
+    description: "Defines the strategic role a human actor played in an attack."
+    required_properties:
+      - name: role_type
+        type: string
+        enum: [attacker, defender, victim]
+        notes: >
+          THIS IS A RELATIONSHIP PROPERTY, not a node attribute.
+          Do NOT add 'role_type' or 'ai_role_type' as AI_Component fields.
+          HUMAN_ROLE.role_type is on the (Human_Actor)-[:HUMAN_ROLE]->(Attack) edge.
+      - name: evidence_class
+        type: string
+        enum: [documented_fact, supported_inference, instructional_extension]
+    example:
+      from: "HUM-SIS"
+      to: "ATK-TRI-001"
+      role_type: "defender"
+    canonical_role_types_by_case:
+      colonial: "defender"
+      triton: "defender"
+      stuxnet: "victim"
+      gsm: "victim"
+
+# ── SUMMARY ──────────────────────────────────────────────────────────────
+metadata:
+  total_relationship_types: 17
+  by_category:
+    technique: [USES_TECHNIQUE, TECHNIQUE_ORDER]
+    vulnerability_chain: [EXPLOITS, ROOT_CAUSE, MAPS_TO_PATTERN]
+    physical: [TARGETS, LOCATED_IN, AFFECTS_PROCESS, CAUSES_CONSEQUENCE]
+    bridge: [USES_BRIDGE, BRIDGES_TO]
+    instructional: [MAPS_TO_CONCEPT, CONSEQUENCE_TYPE]
+    ai: [AI_INVOLVED_IN, AI_ATTACK_VIA]
+    human: [PERFORMS_ACTION, HUMAN_ROLE]
+  source: "CYB-14 v1.1 §VIII, CYB-25 §IV"
+  version: "1.1"
+  notes: >
+    Relationship YAML files use from_type/from_id/type/to_type/to_id/properties format.
+    loader.py _load_relationships() reads this structure.
+    MERGE on (from_type {pk: from_id})-[:type]->(to_type {pk: to_id}) with ON CREATE/MERGE SET properties.

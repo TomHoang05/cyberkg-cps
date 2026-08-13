@@ -1,0 +1,59 @@
+# Minimal Colonial Pipeline fixture for unit tests
+# Mirrors canonical node_schema.yaml format; uses correct MERGE key 'attack_id'
+# Fixed: id → attack_id, sector → industry_sector, namespace → platform, removed bridge_type (belongs on Bridge_Mechanism)
+
+nodes:
+  Attack:
+    - attack_id: "ATK-COL-001"
+      name: "Colonial Pipeline Ransomware Attack"
+      year: 2021
+      nation_state: false
+      industry_sector: "pipeline"
+      description: "DarkSide ransomware attack on Colonial Pipeline IT systems; voluntary OT shutdown caused East Coast fuel disruption."
+      source: "CISA Advisory AA21-131A"
+      source_id_or_url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-131a"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+  ATT_CK_Technique:
+    - mitre_id: "T1078"
+      name: "Valid Accounts"
+      tactic: "initial-access"
+      platform: "Enterprise"
+      description: "DarkSide used a compromised VPN credential (no MFA) for initial access."
+      url: "https://attack.mitre.org/techniques/T1078/"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+  Bridge_Mechanism:
+    - bridge_id: "BRG-VPN"
+      name: "Colonial Pipeline VPN (Authorized Channel, No MFA)"
+      bridge_type: "authorized"
+      description: "Legitimate remote access VPN missing MFA — attacker used stolen credential."
+      table1_ref: "C1.1"
+      source: "CISA Advisory AA21-131A"
+      source_id_or_url: "https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-131a"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+relationships:
+  - from_type: "Attack"
+    from_id: "ATK-COL-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T1078"
+    properties:
+      step_order: 1
+      phase: "initial-access"
+      evidence_class: "documented_fact"
+
+  - from_type: "Attack"
+    from_id: "ATK-COL-001"
+    type: "USES_BRIDGE"
+    to_type: "Bridge_Mechanism"
+    to_id: "BRG-VPN"
+    properties:
+      evidence_class: "documented_fact"

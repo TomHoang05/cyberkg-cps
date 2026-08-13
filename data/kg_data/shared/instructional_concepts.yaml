@@ -1,0 +1,145 @@
+# data/kg_data/shared/instructional_concepts.yaml
+# 12 Instructional_Concept nodes (C1.1-C4.2) — CYB-12 §III.16
+# Load FIRST (CYB-25 §IV); referenced by all 4 attack cases via MAPS_TO_CONCEPT
+# MERGE key: concept_id
+# module_alignment values: M1, M2, M3, M4 (NOT M5) — CYB-07 v2.4, CYB-12 v1.3
+# Source: CYB-06 v1.6 Table 1 + CYB-15 v2.0
+
+nodes:
+  Instructional_Concept:
+
+    # ── M1: IT/OT Transition (C1.1-C1.4) ────────────────────────────────
+    - concept_id: "IC-C11"
+      name: "C1.1 Authorized Bridges"
+      description: "Legitimate IT-OT connectivity vectors that attackers exploit; e.g. VPN without MFA"
+      category_group: "it_ot_transition"
+      module_alignment: "M1"
+      table1_ref: "C1.1"
+      bloom_level: "L2"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - concept_id: "IC-C12"
+      name: "C1.2 Unauthorized Bridges"
+      description: "Unsanctioned cross-plane connections; e.g. dual-homed EWS spanning IT and safety networks"
+      category_group: "it_ot_transition"
+      module_alignment: "M1"
+      table1_ref: "C1.2"
+      bloom_level: "L2"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - concept_id: "IC-C13"
+      name: "C1.3 Air-Gap Bypassing"
+      description: "Techniques to cross physically isolated networks via removable media or transient assets"
+      category_group: "it_ot_transition"
+      module_alignment: "M1"
+      table1_ref: "C1.3"
+      bloom_level: "L3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - concept_id: "IC-C14"
+      name: "C1.4 Structural Exposure"
+      description: "Flat or insufficiently segmented networks where IT and OT share open paths"
+      category_group: "it_ot_transition"
+      module_alignment: "M1"
+      table1_ref: "C1.4"
+      bloom_level: "L2"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # ── M2: Physical Consequences (C2.1-C2.4) ───────────────────────────
+    - concept_id: "IC-C21"
+      name: "C2.1 Direct Manipulation"
+      description: "Attacker directly alters physical process parameters causing equipment damage"
+      category_group: "physical_consequences"
+      module_alignment: "M2"
+      table1_ref: "C2.1"
+      bloom_level: "L4"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - concept_id: "IC-C22"
+      name: "C2.2 Indirect Disruption"
+      description: "Cyber impact triggers voluntary or cascading OT shutdown without direct physical damage"
+      category_group: "physical_consequences"
+      module_alignment: "M2"
+      table1_ref: "C2.2"
+      bloom_level: "L3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - concept_id: "IC-C23"
+      name: "C2.3 Safety Suppression"
+      description: "Disabling safety instrumented systems to enable physical damage without automatic shutdown"
+      category_group: "physical_consequences"
+      module_alignment: "M2"
+      table1_ref: "C2.3"
+      bloom_level: "L4"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - concept_id: "IC-C24"
+      name: "C2.4 View Manipulation"
+      description: "Replay attacks that show operators false normal readings while physical damage occurs"
+      category_group: "physical_consequences"
+      module_alignment: "M2"
+      table1_ref: "C2.4"
+      bloom_level: "L4"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # ── M3: AI Attack Surface (C3.1-C3.2) ───────────────────────────────
+    - concept_id: "IC-C31"
+      name: "C3.1 Prompt Injection"
+      description: "Indirect prompt injection attacks against LLM-based security assistants in CPS context"
+      category_group: "ai_attack_surface"
+      module_alignment: "M3"
+      table1_ref: "C3.1"
+      bloom_level: "L3"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - concept_id: "IC-C32"
+      name: "C3.2 Physical Perturbation"
+      description: "Adversarial physical signals designed to corrupt sensor data fed to AI/ML monitoring"
+      category_group: "ai_attack_surface"
+      module_alignment: "M3"
+      table1_ref: "C3.2"
+      bloom_level: "L4"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    # ── M4: AI Resilience (C4.1-C4.2) ────────────────────────────────────
+    - concept_id: "IC-C41"
+      name: "C4.1 Domain Transfer"
+      description: "AI models trained on IT data may fail to generalize to OT protocol distributions"
+      category_group: "ai_resilience"
+      module_alignment: "M4"
+      table1_ref: "C4.1"
+      bloom_level: "L5"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - concept_id: "IC-C42"
+      name: "C4.2 Error Propagation"
+      description: "False AI alerts triggering incorrect operator or automated responses in physical systems"
+      category_group: "ai_resilience"
+      module_alignment: "M4"
+      table1_ref: "C4.2"
+      bloom_level: "L5"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"

@@ -1,0 +1,18 @@
+Given the following structured attack chain from the CyberKG-CPS knowledge graph about {attack},
+generate an IT-OT Movement Explanation for educational use.
+
+## Ordered Attack Chain
+{chain}
+
+## AI and Human Context
+Human actors: {human_actors}
+AI components: {ai_components}
+
+## Instructional Output Requirements
+- Narrate the attack progression step by step in chronological order
+- Clearly identify when and how the IT-OT boundary was crossed
+- Include a "Defensive Implication" paragraph
+- Use the 4-layer structure: Initial Access → IT Lateral Movement → IT-OT Bridge → OT Access
+
+## Claim Qualifications
+{provenance_summary}

@@ -1,0 +1,1442 @@
+# data/kg_data/qbank/questions.yaml
+# Q-Bank: 128 questions Q01-Q128 — CYB-06 v1.6 Part 4 (Sprint 3 T046b)
+# Source: CYB-06 v1.6 + CYB-09 v0.3 Dataset Inventory
+# MERGE key: question_id
+# user_role: instructor | student | security_researcher
+# bloom_level: L1 (remember) | L2 (understand) | L3 (apply) | L4 (analyze) | L5 (evaluate) | L6 (create)
+# Distribution: instructor ~31 | student ~68 | security_researcher ~29 (total: 128)
+
+nodes:
+  Question:
+
+    # ── S01: IT/OT Bridge Fundamentals (Instructor) ─────────────────────
+    - question_id: "Q01"
+      text: "What are the four canonical bridge types in CyberKG-CPS and a real attack example for each?"
+      user_role: "instructor"
+      bloom_level: "L2"
+      scenario_id: "S01"
+      answer_hint: "authorized (Colonial VPN), unauthorized (TRITON EWS), air_gap (Stuxnet USB), structural (German Steel Mill flat network)"
+      table1_ref: "C1.1,C1.2,C1.3,C1.4"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q02"
+      text: "Explain why a VPN without MFA is classified as an 'authorized' bridge type rather than a vulnerability."
+      user_role: "instructor"
+      bloom_level: "L4"
+      scenario_id: "S01"
+      answer_hint: "Authorized = legitimate connectivity channel; the vulnerability is in its configuration (missing MFA), not its existence"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q03"
+      text: "How did Colonial Pipeline's 5,500-mile pipeline get shut down without the OT systems being directly compromised?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S01"
+      answer_hint: "Ransomware hit IT billing/accounting; Colonial chose proactive OT shutdown to prevent lateral spread and billing paralysis"
+      table1_ref: "C1.1,C2.2"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q04"
+      text: "What is the Purdue Model and how does it define the concept of network zones in CyberKG-CPS?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S01"
+      answer_hint: "5-level hierarchy L0-L5 from field devices to enterprise; zones: Field, Control, DMZ, Enterprise, Internet"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q05"
+      text: "Classify the bridge mechanism in each of the 4 CyberKG-CPS attack cases using the canonical bridge_type enum."
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S01"
+      answer_hint: "Colonial=authorized, TRITON=unauthorized, Stuxnet=air_gap, GSM=structural"
+      table1_ref: "C1.1,C1.2,C1.3,C1.4"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # ── S02: Stuxnet Air-Gap Analysis (Student) ──────────────────────────
+    - question_id: "Q06"
+      text: "What Windows zero-day vulnerability did Stuxnet use to cross the Natanz air-gap?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S02"
+      answer_hint: "CVE-2010-2568: Windows Shell LNK file icon auto-execution zero-day"
+      table1_ref: "C1.3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q07"
+      text: "How many Windows zero-days did Stuxnet use, and why was this unusual at the time?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S02"
+      answer_hint: "4 zero-days (CVE-2010-2568, -2729, -2772, -2743); unprecedented — single malware typically uses 1; state-level resources implied"
+      table1_ref: "C1.3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q08"
+      text: "Why did Stuxnet target specifically Siemens S7-315 PLCs and frequency converters running at 807-1210 Hz?"
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S02"
+      answer_hint: "Those parameters uniquely identify IR-1 uranium enrichment centrifuges; targeted sabotage without generic industrial disruption"
+      table1_ref: "C2.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q09"
+      text: "Describe Stuxnet's replay attack technique and why it was effective against human operators."
+      user_role: "instructor"
+      bloom_level: "L4"
+      scenario_id: "S02"
+      answer_hint: "Recorded 21s normal sensor data, replayed in loop on SCADA; operators saw false-normal readings for months while centrifuges physically failed"
+      table1_ref: "C2.4"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # ── S03: TRITON Safety System Attack (Security Researcher) ───────────
+    - question_id: "Q10"
+      text: "What made TRITON historically significant in ICS security?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S03"
+      answer_hint: "First malware designed specifically to compromise Safety Instrumented Systems (SIS) — targeting human safety rather than operations"
+      table1_ref: "C2.3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q11"
+      text: "Explain the dual-homed EWS as an unauthorized bridge in the TRITON attack."
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S03"
+      answer_hint: "Engineering workstation with both IT and Safety network interfaces; bridge_type=unauthorized because it violated IT-OT separation policy"
+      table1_ref: "C1.2"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q12"
+      text: "Why did TRITON fail to achieve its intended outcome?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S03"
+      answer_hint: "Programming bug in TRITON malware caused SIS to fail-safe (trip unexpectedly), alerting engineers before physical damage occurred"
+      table1_ref: "C2.3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q13"
+      text: "What is the TriStation protocol and why was its lack of authentication a critical vulnerability?"
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S03"
+      answer_hint: "Proprietary Schneider Electric SIS protocol; no authentication enabled any network host to send control commands — CWE-306"
+      table1_ref: "C1.2"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # ── S04: German Steel Mill (Student/Instructor) ──────────────────────
+    - question_id: "Q14"
+      text: "What is a 'flat network' and why was it so dangerous in the German Steel Mill attack?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S04"
+      answer_hint: "Single network with no IT-OT segmentation; allowed lateral movement directly from office PC to blast furnace DCS without firewall"
+      table1_ref: "C1.4"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q15"
+      text: "Why is the German Steel Mill attack considered similar to Stuxnet in terms of consequence_type?"
+      user_role: "instructor"
+      bloom_level: "L4"
+      scenario_id: "S04"
+      answer_hint: "Both CON-CENT (Stuxnet) and CON-FURN (GSM) are direct_manipulation consequence type — physical equipment damage from cyber-controlled process manipulation"
+      table1_ref: "C2.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q16"
+      text: "Trace the full kill chain of the German Steel Mill attack from initial access to physical damage."
+      user_role: "student"
+      bloom_level: "L3"
+      scenario_id: "S04"
+      answer_hint: "Spearphishing email → office WRK1 → flat network structural exposure → DCS/HMI access → blast furnace parameter manipulation (T0831) → uncontrolled shutdown → physical damage"
+      table1_ref: "C1.4,C2.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # ── S05: Cross-Case Comparison (Instructor) ──────────────────────────
+    - question_id: "Q17"
+      text: "Compare the human actors across all 4 CyberKG-CPS cases: what roles did humans play and what were the outcomes?"
+      user_role: "instructor"
+      bloom_level: "L4"
+      scenario_id: "S05"
+      answer_hint: "Stuxnet=operator deceived/attack_progressed; TRITON=engineer detected/attack_detected; Colonial=manager decided/attack_contained; GSM=employee deceived/attack_progressed"
+      table1_ref: "C1.1,C1.2,C1.3,C1.4"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q18"
+      text: "Which ATT&CK techniques are shared between multiple CyberKG-CPS attack cases, and what does this indicate?"
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S05"
+      answer_hint: "T1566.001 (TRITON+GSM), T0873 (Stuxnet+GSM), T0831 (Stuxnet+GSM), T1078 (Colonial+GSM) — 4 shared techniques indicate common ICS attack patterns. T0822 = Triton only; T1021 = Colonial only."
+      table1_ref: "C1.1,C1.2,C1.3,C1.4"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # ── S06: MITRE ATT&CK ICS Mapping (Security Researcher) ─────────────
+    - question_id: "Q19"
+      text: "What is the difference between MITRE ATT&CK Enterprise and ATT&CK ICS technique namespaces?"
+      user_role: "security_researcher"
+      bloom_level: "L2"
+      scenario_id: "S06"
+      answer_hint: "Enterprise: T1xxx (IT-focused); ICS: T0xxx (OT/ICS-focused, 12 tactics specific to physical process impact)"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q20"
+      text: "Map the 5 CyberKG-CPS ATT&CK techniques that use the 'impact' tactic to their corresponding Consequences."
+      user_role: "instructor"
+      bloom_level: "L3"
+      scenario_id: "S06"
+      answer_hint: "T0880→CON-SIS/CON-EXP; T0831→CON-CENT/CON-FURN; T0832→CON-VIEW; T1486→CON-SHUT/CON-FUEL"
+      table1_ref: "C2.1,C2.2,C2.3,C2.4"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q21"
+      text: "What does CAPEC-549 describe and which CyberKG-CPS attack uses it?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S06"
+      answer_hint: "CAPEC-549: Local Execution of Code (from removable media); Stuxnet USB auto-execution via CVE-2010-2568"
+      table1_ref: "C1.3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # ── S07: Vulnerability Chain Analysis (Security Researcher) ──────────
+    - question_id: "Q22"
+      text: "Construct the full CVE→CWE→CAPEC chain for Stuxnet's primary air-gap crossing vector."
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S07"
+      answer_hint: "CVE-2010-2568 (CVSS 9.3) → CWE-20 (Input Validation) → CAPEC-210 (Abuse Existing Functionality) / CAPEC-549 (Local Execution)"
+      table1_ref: "C1.3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q23"
+      text: "What CVSS v3 score did CVE-2018-7522 receive and what did it allow attackers to do?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S07"
+      answer_hint: "CVSS 9.8 (Critical); buffer overflow in Triconex firmware enabling remote code execution via TriStation"
+      table1_ref: "C1.2"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q24"
+      text: "Why is CWE-306 (Missing Authentication for Critical Function) particularly dangerous in ICS/OT environments?"
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S07"
+      answer_hint: "OT protocols often designed for reliability over security; no auth means any network-reachable device can send control commands — TRITON exploited this in TriStation"
+      table1_ref: "C1.2"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # ── S08: AI in CPS Security (Instructor) ─────────────────────────────
+    - question_id: "Q25"
+      text: "How could a hypothetical anomaly detection AI have detected Stuxnet's centrifuge manipulation?"
+      user_role: "instructor"
+      bloom_level: "L5"
+      scenario_id: "S08"
+      answer_hint: "Monitor PLC frequency converter outputs; flag 1410→2 Hz cycling pattern as physically impossible normal operation; correlate with SCADA replay (static readings despite motor state changes)"
+      table1_ref: "C3.2,C4.1"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q26"
+      text: "What is the 'domain transfer' AI vulnerability and why does it apply to all 4 CyberKG-CPS cases?"
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S08"
+      answer_hint: "AI trained on IT traffic (TCP/IP patterns) fails when applied to OT protocols (Modbus/DNP3/TriStation); different statistical distributions; applies to all 4 cases since each uses OT protocols"
+      table1_ref: "C4.1"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q27"
+      text: "Define 'indirect prompt injection' in the context of a CPS security LLM assistant."
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S08"
+      answer_hint: "Attacker embeds instructions in content the LLM processes (logs, alerts, OT data) causing it to behave differently than intended — e.g., ignore real alarms or suggest wrong responses"
+      table1_ref: "C3.1"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    # ── S09: Instructional Concepts Deep Dive (Instructor) ──────────────
+    - question_id: "Q28"
+      text: "Explain the difference between C2.1 (Direct Manipulation) and C2.3 (Safety Suppression) using attack examples."
+      user_role: "instructor"
+      bloom_level: "L4"
+      scenario_id: "S09"
+      answer_hint: "C2.1: attacker directly causes physical damage (Stuxnet centrifuges, GSM furnace); C2.3: attacker disables safety system to prevent protective shutdown (TRITON SIS)"
+      table1_ref: "C2.1,C2.3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q29"
+      text: "What module alignment does C3.1 belong to and what Bloom taxonomy level would you assign to understanding it?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S09"
+      answer_hint: "M3 (AI Attack Surface); Bloom L3 (Apply) — must apply prompt injection knowledge to real ICS contexts"
+      table1_ref: "C3.1"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    # ── S09b: Graph Queries (Security Researcher) ────────────────────────
+    - question_id: "Q30"
+      text: "Write a Cypher query to find all ATT&CK techniques shared between Stuxnet and German Steel Mill."
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S09b"
+      answer_hint: "MATCH (a1:Attack)-[:USES_TECHNIQUE]->(t)<-[:USES_TECHNIQUE]-(a2:Attack) WHERE a1.attack_id='ATK-STX-001' AND a2.attack_id='ATK-GSM-001' RETURN t.mitre_id, t.name"
+      table1_ref: "C1.3,C1.4"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q31"
+      text: "What Cypher query would return all consequences with consequence_type='direct_manipulation' and their associated attack cases?"
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S09b"
+      answer_hint: "MATCH (a:Attack)-[:CAUSES_CONSEQUENCE]->(c:Consequence) WHERE c.consequence_type='direct_manipulation' RETURN a.name, c.name, c.realized"
+      table1_ref: "C2.1"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    # ── S10: Physical Consequences (Student) ─────────────────────────────
+    - question_id: "Q32"
+      text: "List the 4 consequence_types in CyberKG-CPS and give one real-world example for each."
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S10"
+      answer_hint: "direct_manipulation (Stuxnet centrifuges), indirect_disruption (Colonial fuel shortage), safety_suppression (TRITON SIS), manipulation_of_view (Stuxnet SCADA replay)"
+      table1_ref: "C2.1,C2.2,C2.3,C2.4"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q33"
+      text: "Which two Colonial Pipeline consequences were both classified as 'indirect_disruption' and why?"
+      user_role: "student"
+      bloom_level: "L3"
+      scenario_id: "S10"
+      answer_hint: "CON-SHUT (OT shutdown) and CON-FUEL (East Coast shortage) — OT systems not directly compromised; disruption was consequence of voluntary shutdown decision"
+      table1_ref: "C2.2"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # ── S11: Network Zone Traversal (Security Researcher) ────────────────
+    - question_id: "Q34"
+      text: "Trace the network zone traversal path in the TRITON attack from internet to Triconex SIS."
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S11"
+      answer_hint: "Internet (NZ-INET) → Enterprise (NZ-CORP) via spearphishing/email → Dual-homed EWS bridge (BRG-EWS) → Field/Safety Net (NZ-FIELD) → Triconex SIS"
+      table1_ref: "C1.2"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q35"
+      text: "At which Purdue level do Triconex SIS controllers operate, and why does this matter for defense?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S11"
+      answer_hint: "Purdue L1 (Field device); deepest OT layer — defense-in-depth requires every zone above (L2-L5) to be properly secured to protect L1"
+      table1_ref: "C1.2"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # ── S12: OT System Types (Student/Instructor) ────────────────────────
+    - question_id: "Q36"
+      text: "What is a Safety Instrumented System (SIS) and how does it differ from a regular PLC?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S12"
+      answer_hint: "SIS is designed for fail-safe emergency shutdown (certified SIL); PLC is for process control. SIS activates automatically when parameters exceed safe limits — TRITON targeted SIS to prevent this"
+      table1_ref: "C2.3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q37"
+      text: "Compare Siemens S7-315 PLC and Triconex SIS as attack targets: what made each attractive to attackers?"
+      user_role: "instructor"
+      bloom_level: "L4"
+      scenario_id: "S12"
+      answer_hint: "S7-315: controlled centrifuge speed — physical sabotage target; Triconex: controlled emergency shutdown — safety suppression target. Different attack goals (sabotage vs. enabling future sabotage)"
+      table1_ref: "C2.1,C2.3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # ── S13: Defense Strategies (Instructor) ─────────────────────────────
+    - question_id: "Q38"
+      text: "What single defensive control would have most reduced the risk in the Colonial Pipeline attack?"
+      user_role: "instructor"
+      bloom_level: "L5"
+      scenario_id: "S13"
+      answer_hint: "Multi-factor authentication (MFA) on VPN — the single missing control that enabled DarkSide's entry via stolen credential"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q39"
+      text: "What is 'PLC Baseline Auditing' and how could it have detected Stuxnet?"
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S13"
+      answer_hint: "Periodic hash verification of PLC firmware/logic against known-good baseline; Stuxnet's OB35/DB89 injection would have changed the checksum"
+      table1_ref: "C1.3"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q40"
+      text: "Why should a Triconex SIS Key-switch be set to 'RUN' rather than 'REMOTE' during normal operations?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S13"
+      answer_hint: "In RUN mode, SIS refuses all remote firmware updates; REMOTE mode allowed TRITON to reprogram the SIS over TriStation network without physical access"
+      table1_ref: "C1.2"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # ── S14: Human Factor in ICS (Student) ──────────────────────────────
+    - question_id: "Q41"
+      text: "How did the German Steel Mill attacker use social engineering and what made the employee susceptible?"
+      user_role: "student"
+      bloom_level: "L3"
+      scenario_id: "S14"
+      answer_hint: "Targeted spearphishing email to specific employee; convincing pretense (industry-specific content); employee not trained to recognize targeted phishing; opened attachment"
+      table1_ref: "C1.4"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q42"
+      text: "What does 'XENOTIME' refer to in the context of the TRITON attack?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S14"
+      answer_hint: "XENOTIME: threat actor group responsible for TRITON attack; attributed to Russian state-sponsored actors (TEMP.Veles by Mandiant)"
+      table1_ref: "C1.2"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    # ── S15: Knowledge Graph Concepts (Instructor/Student) ───────────────
+    - question_id: "Q43"
+      text: "What are the 4 planes of the CyberKG-CPS ontology and which entity types belong to each?"
+      user_role: "instructor"
+      bloom_level: "L2"
+      scenario_id: "S15"
+      answer_hint: "Cyber (Attack,ATT&CK_Technique,Vulnerability,Weakness,Attack_Pattern,IT_System), Physical (OT_System,Network_Zone,Physical_Process,Consequence), AI (AI_Component,AI_Attack_Surface), Human (Human_Actor,Human_Action); Bridge_Mechanism+Instructional_Concept are cross-cutting"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q44"
+      text: "How many canonical entity types are in CyberKG-CPS Sprint 1+2, and which type is added in Sprint 3?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S15"
+      answer_hint: "16 entity types in Sprint 1+2; Question (#17) added in Sprint 3 T046b for Q-Bank"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q45"
+      text: "What is the difference between a MERGE and CREATE operation in Neo4j, and why does CyberKG-CPS use MERGE for loading?"
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S15"
+      answer_hint: "MERGE = CREATE if not exists, else MATCH; enables deduplication of shared nodes (e.g., T1566.001 in TRITON and GSM) → produces 107 canonical nodes from 118 loaded"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    # ── S16: Evidence Class and Provenance (Security Researcher) ─────────
+    - question_id: "Q46"
+      text: "What are the three evidence_class values in CyberKG-CPS and what confidence floor does each require?"
+      user_role: "security_researcher"
+      bloom_level: "L2"
+      scenario_id: "S16"
+      answer_hint: "documented_fact ≥0.8, supported_inference ≥0.6, instructional_extension ≥0.0 (can be 0.0 for hypothetical AI content)"
+      table1_ref: "C4.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q47"
+      text: "Why do all AI_Component and AI_Attack_Surface nodes in CyberKG-CPS have evidence_class='instructional_extension'?"
+      user_role: "instructor"
+      bloom_level: "L3"
+      scenario_id: "S16"
+      answer_hint: "Hypothetical/educational construct — AI components are 'what could have detected/prevented this' scenarios; not documented in attack reports"
+      table1_ref: "C3.1,C4.1"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    # ── S17: CyberKG-CPS API Usage (Student) ─────────────────────────────
+    - question_id: "Q48"
+      text: "What API endpoint returns the full knowledge graph subgraph for a specific attack case?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S17"
+      answer_hint: "GET /api/v1/graph/{attack_id} — e.g., /api/v1/graph/ATK-COL-001"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q49"
+      text: "What does the POST /api/v1/query endpoint accept and what does it return?"
+      user_role: "security_researcher"
+      bloom_level: "L2"
+      scenario_id: "S17"
+      answer_hint: "Accepts natural language question; returns LLM-generated answer grounded in KG context with provenance and confidence scores"
+      table1_ref: "C4.1"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    # ── S18: Comparison / Analysis (Instructor) ──────────────────────────
+    - question_id: "Q50"
+      text: "Rank the 4 attack cases by physical consequence severity and justify your ranking."
+      user_role: "instructor"
+      bloom_level: "L5"
+      scenario_id: "S18"
+      answer_hint: "Stuxnet (nuclear sabotage, 1000 centrifuges), GSM (blast furnace, millions EUR), TRITON (potential catastrophic explosion, averted), Colonial (economic disruption, no physical OT damage)"
+      table1_ref: "C2.1,C2.2,C2.3,C2.4"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q51"
+      text: "Which attack demonstrates the longest dwell time before discovery and what enabled it?"
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S18"
+      answer_hint: "Stuxnet — approximately 1 year of operation; enabled by replay attack (T0832) making operators see false-normal readings; no ICS anomaly detection in 2010"
+      table1_ref: "C2.4"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    # ── S19: Graph Statistics (Security Researcher) ──────────────────────
+    - question_id: "Q52"
+      text: "Why does SHOW INDEXES in Neo4j show more indexes than the number of CREATE INDEX statements in CYB-14?"
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S19"
+      answer_hint: "UNIQUE constraints automatically create backing indexes in Neo4j; 22 constraints + 26 explicit indexes = 48+ total shown in SHOW INDEXES"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q53"
+      text: "What is the canonical post-MERGE node count in CyberKG-CPS Neo4j and how does it differ from the visualization?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S19"
+      answer_hint: "107 canonical in Neo4j (post-MERGE deduplication); 118 in visualization (includes placeholder nodes T0843/T0878)"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # ── S20: Bloom Taxonomy Application (Instructor) ─────────────────────
+    - question_id: "Q54"
+      text: "Design a 4-question quiz on Colonial Pipeline that covers Bloom L1 through L4."
+      user_role: "instructor"
+      bloom_level: "L6"
+      scenario_id: "S20"
+      answer_hint: "L1: What CVE class did DarkSide exploit? L2: Explain why no MFA enabled the attack. L3: Map the attack to ATT&CK techniques. L4: Analyze why Colonial shut down OT preemptively."
+      table1_ref: "C1.1,C2.2"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q55"
+      text: "What Bloom level is required to understand why Stuxnet's replay attack undermines AI anomaly detection, and why?"
+      user_role: "instructor"
+      bloom_level: "L5"
+      scenario_id: "S20"
+      answer_hint: "L4-L5 (Analyze/Evaluate) — requires understanding AI training assumptions, sensor data integrity, and physical process physics to evaluate the replay attack's effectiveness"
+      table1_ref: "C3.2,C4.1"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    # ── S21: Advanced KG Design (Security Researcher) ────────────────────
+    - question_id: "Q56"
+      text: "Why does CyberKG-CPS use MITRE ID (mitre_id) as the MERGE key for ATT&CK_Technique nodes instead of an internal technique_id?"
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S21"
+      answer_hint: "External stable identifier enables cross-case MERGE deduplication; T0831 in both Stuxnet and GSM YAML files MERGEs to ONE node — the canonical target of 107 vs 118 nodes"
+      table1_ref: "C1.3,C1.4"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q57"
+      text: "What is the role of the CONSEQUENCE_TYPE relationship in CyberKG-CPS, and which entities does it connect?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S21"
+      answer_hint: "CONSEQUENCE_TYPE connects Consequence nodes to Instructional_Concept nodes — maps real attack outcomes to educational concepts in the curriculum"
+      table1_ref: "C2.1,C2.2,C2.3,C2.4"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # ── Additional Questions Q58-Q128 (covering all scenarios) ──────────
+    - question_id: "Q58"
+      text: "What is the DarkSide ransomware group and what business model did they operate under?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S01"
+      answer_hint: "DarkSide: ransomware-as-a-service (RaaS) group; operated as criminal enterprise offering ransomware to affiliates for percentage of ransom payments"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q59"
+      text: "What is the MITRE ATLAS framework and how does it relate to CyberKG-CPS AI_Attack_Surface nodes?"
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S08"
+      answer_hint: "MITRE ATLAS: Adversarial Threat Landscape for AI Systems; AIS-PI maps to AML.T0051, AIS-PP maps to AML.T0020"
+      table1_ref: "C3.1,C3.2"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q60"
+      text: "How does CyberKG-CPS use HUMAN_ROLE as a relationship property rather than a node attribute?"
+      user_role: "instructor"
+      bloom_level: "L3"
+      scenario_id: "S15"
+      answer_hint: "HUMAN_ROLE is a relationship property on the (Human_Actor)-[:HUMAN_ROLE]->(Attack) edge; role_type values: attacker/defender/victim. The Human_Actor node uses actor_type for their professional role."
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q61"
+      text: "What does CVSS 9.8 (Critical) for CVE-2018-7522 indicate about the Triconex vulnerability's risk profile?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S07"
+      answer_hint: "CVSS 9.8: network-exploitable, no authentication required, full system compromise (RCE) — remotely exploitable without user interaction on affected Triconex devices"
+      table1_ref: "C1.2"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q62"
+      text: "Describe the 'error propagation' AI vulnerability in the context of Colonial Pipeline's OT monitoring."
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S08"
+      answer_hint: "AI false positive on pipeline flow anomaly → automated or operator override → potential real safety threshold ignored → cascading failures; Colonial's voluntary shutdown itself could be seen as a defensive error triggered by uncertainty"
+      table1_ref: "C4.2"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q63"
+      text: "What is the TECHNIQUE_ORDER relationship used for in CyberKG-CPS?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S15"
+      answer_hint: "TECHNIQUE_ORDER links ATT&CK_Technique nodes in sequence to represent the kill chain step ordering within an attack case"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q64"
+      text: "What does 'instructional_extension' as an evidence_class mean for data reliability?"
+      user_role: "instructor"
+      bloom_level: "L3"
+      scenario_id: "S16"
+      answer_hint: "Hypothetical/educational content not documented in primary sources; can have confidence=0.0; should be clearly distinguished from documented_fact in curriculum use"
+      table1_ref: "C3.1"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q65"
+      text: "How would you query CyberKG-CPS to find all Physical_Process nodes affected by direct_manipulation consequences?"
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S09b"
+      answer_hint: "MATCH (p:Physical_Process)<-[:AFFECTS_PROCESS]-(ot:OT_System)<-[:TARGETS]-(t)-[:CAUSES_CONSEQUENCE]->(c:Consequence) WHERE c.consequence_type='direct_manipulation' RETURN p, c"
+      table1_ref: "C2.1"
+      evidence_class: "documented_fact"
+      confidence: 0.85
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q66"
+      text: "What is the significance of the Equation Group attribution for Stuxnet?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S02"
+      answer_hint: "Equation Group: NSA-linked threat actor; Stuxnet believed to be joint US-Israel operation; first state-sponsored cyberweapon causing physical industrial destruction"
+      table1_ref: "C1.3"
+      evidence_class: "documented_fact"
+      confidence: 0.85
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q67"
+      text: "Explain why the Siemens WinCC hardcoded SQL credential (CVE-2010-2772) is classified as CWE-287 rather than CWE-798."
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S07"
+      answer_hint: "CWE-287 is the parent class (Improper Authentication); CWE-798 (Hardcoded Credentials) is a child. CyberKG-CPS uses the more general Base-level abstraction per annotation guidelines."
+      table1_ref: "C1.3"
+      evidence_class: "documented_fact"
+      confidence: 0.85
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q68"
+      text: "What role does the IT_System node ITS-HIST (IT Historian) play in bridging IT and OT in Stuxnet?"
+      user_role: "instructor"
+      bloom_level: "L4"
+      scenario_id: "S12"
+      answer_hint: "Historian bridges L3 control and L4 enterprise by aggregating OT data for business reporting; Stuxnet used historian access to reach Step 7 project databases containing PLC configurations"
+      table1_ref: "C1.3"
+      evidence_class: "supported_inference"
+      confidence: 0.8
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q69"
+      text: "What is CAPEC-163 (Spearphishing) and how is it different from generic phishing?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S06"
+      answer_hint: "CAPEC-163 Spearphishing: targeted attack against specific individual/org using personalized/industry-relevant content; vs. generic phishing which casts wide net with generic content"
+      table1_ref: "C1.2,C1.4"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q70"
+      text: "What makes the USES_BRIDGE relationship important for understanding ICS attack paths?"
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S21"
+      answer_hint: "USES_BRIDGE connects Attack to the Bridge_Mechanism — the crossing point from cyber to physical. Without this, the graph cannot represent the IT→OT transition that enables physical consequences."
+      table1_ref: "C1.1,C1.2,C1.3,C1.4"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q71"
+      text: "Compare the Purdue levels of the primary OT targets in each attack case."
+      user_role: "instructor"
+      bloom_level: "L3"
+      scenario_id: "S12"
+      answer_hint: "Stuxnet OTS-PLC L1, TRITON OTS-SIS L1, Colonial OTS-PIPE L2, GSM OTS-DCS L2 — Stuxnet and TRITON targeted deepest OT layers"
+      table1_ref: "C1.1,C1.2,C1.3,C1.4"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q72"
+      text: "What is the AFFECTS_PROCESS relationship and which two entity types does it connect?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S15"
+      answer_hint: "AFFECTS_PROCESS connects OT_System to Physical_Process — showing which OT systems control which physical processes"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q73"
+      text: "Design a Neo4j schema constraint that prevents loading a Question node without a question_id."
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S09b"
+      answer_hint: "CREATE CONSTRAINT question_id_unique IF NOT EXISTS FOR (q:Question) REQUIRE q.question_id IS UNIQUE; — unique constraint implicitly enforces NOT NULL"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q74"
+      text: "Why is Colonial Pipeline the only attack case without an AI_Attack_Surface of type 'physical_perturbation'?"
+      user_role: "instructor"
+      bloom_level: "L4"
+      scenario_id: "S08"
+      answer_hint: "Colonial's attack stayed in IT (ransomware/encryption); no OT physical process was directly manipulated; physical_perturbation applies when sensor/actuator data is manipulated (Stuxnet, TRITON, GSM)"
+      table1_ref: "C3.2"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q75"
+      text: "What is CISA Alert AA21-131A and what did it reveal about the Colonial Pipeline attack vector?"
+      user_role: "security_researcher"
+      bloom_level: "L2"
+      scenario_id: "S01"
+      answer_hint: "CISA/FBI joint advisory on Colonial Pipeline DarkSide ransomware; revealed VPN access via legacy account without MFA as confirmed initial access vector (T1078)"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    # Continuing Q76-Q128 with additional scenario coverage
+    - question_id: "Q76"
+      text: "What does 'module_alignment' mean in an Instructional_Concept node and what are the valid values?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S15"
+      answer_hint: "module_alignment: which curriculum module this concept belongs to; valid values: M1 (IT/OT Transition), M2 (Physical Consequences), M3 (AI Attack Surface), M4 (AI Resilience)"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q77"
+      text: "Which 4 IC concepts belong to M1 and what does M1 cover?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S09"
+      answer_hint: "IC-C11, IC-C12, IC-C13, IC-C14; M1 covers IT/OT Transition — the 4 bridge types (authorized, unauthorized, air_gap, structural)"
+      table1_ref: "C1.1,C1.2,C1.3,C1.4"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q78"
+      text: "Explain why T0843 and T0878 are considered placeholder nodes in CYB-15 visualization."
+      user_role: "instructor"
+      bloom_level: "L3"
+      scenario_id: "S19"
+      answer_hint: "T0843 (Program Download) and T0878 (Alarm Suppression) have empty atks[] arrays in CYB-15 — not attributed to any specific attack case; visualization-only placeholders, not in canonical Neo4j data"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q79"
+      text: "What industry sector does each of the 4 CyberKG-CPS attack cases represent?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S18"
+      answer_hint: "Colonial=pipeline, TRITON=petrochemical, Stuxnet=nuclear, German Steel Mill=steel_manufacturing"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q80"
+      text: "Why is the German Steel Mill attack particularly significant despite less overall coverage than Stuxnet?"
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S04"
+      answer_hint: "First publicly confirmed cyberattack to cause significant physical industrial damage outside nuclear sector; demonstrated flat-network risk in manufacturing; preceded by 4 years of largely theoretical OT attack concern"
+      table1_ref: "C2.1"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q81"
+      text: "What is a 'data historian' in OT environments and why is it a security-relevant system?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S12"
+      answer_hint: "Historian: time-series data archive for OT sensor/control data, often connecting L3-L4; security-relevant because it bridges control and enterprise networks and contains process data"
+      table1_ref: "C1.3"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q82"
+      text: "How many relationship types exist in CyberKG-CPS and name 5 of them."
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S15"
+      answer_hint: "17 canonical relationship types; examples: USES_TECHNIQUE, CAUSES_CONSEQUENCE, BRIDGES_TO, MAPS_TO_CONCEPT, HUMAN_ROLE"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q83"
+      text: "What evidence does CYB-15 provide that T0873 (Project File Infection) is shared between Stuxnet and German Steel Mill?"
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S06"
+      answer_hint: "CYB-15 HTML NODES array: TEC_T0873 has atks:['Stuxnet'] in visualization but GSM_cyber.yaml also includes T0873 for blast furnace DCS parameter modification — same technique pattern"
+      table1_ref: "C1.3,C1.4"
+      evidence_class: "supported_inference"
+      confidence: 0.8
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q84"
+      text: "What is the canonical attack_id format for CyberKG-CPS attack nodes?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S15"
+      answer_hint: "Format: ATK-{CASE}-001; canonical IDs: ATK-COL-001, ATK-TRI-001, ATK-STX-001, ATK-GSM-001"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q85"
+      text: "Construct a learning objective for Module M3 (AI Attack Surface) at Bloom L4."
+      user_role: "instructor"
+      bloom_level: "L6"
+      scenario_id: "S20"
+      answer_hint: "Example: 'Students will analyze how indirect prompt injection attacks could manipulate an LLM security assistant's response to a real ICS incident scenario'"
+      table1_ref: "C3.1"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q86"
+      text: "Which attack case had the largest number of MITRE ATT&CK techniques and how many?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S18"
+      answer_hint: "Stuxnet — 7 techniques (T1091, T0847, T1543, T1055, T0873, T0831, T0832)"
+      table1_ref: "C1.3"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q87"
+      text: "What does AML.T0051 refer to and how does it map to CyberKG-CPS surface types?"
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S08"
+      answer_hint: "AML.T0051: Indirect Prompt Injection from MITRE ATLAS; maps to AIS-PI (surface_type: indirect_prompt_injection) in CyberKG-CPS"
+      table1_ref: "C3.1"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q88"
+      text: "What Purdue level does the NZ-PIPE (Pipeline OT Network) zone operate at and which attack uses it?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S11"
+      answer_hint: "NZ-PIPE: Purdue L3 (supervisory); Colonial Pipeline attack — pipeline SCADA supervisory control network"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q89"
+      text: "Explain the AI_ATTACK_VIA relationship and what it represents in the ontology."
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S15"
+      answer_hint: "AI_ATTACK_VIA: connects AI_Attack_Surface to AI_Component, representing an attack path through an AI system's vulnerability surface to compromise the AI component's operation"
+      table1_ref: "C3.1,C3.2"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q90"
+      text: "What financial impact did Colonial Pipeline pay in ransom and what happened to the funds?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S01"
+      answer_hint: "$4.4M ransom paid; DOJ subsequently recovered ~$2.3M of the cryptocurrency through tracking and seizure"
+      table1_ref: "C2.2"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q91"
+      text: "What is 'SIL' in the context of Safety Instrumented Systems and why does TRITON's SIS attack matter for SIL certification?"
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S03"
+      answer_hint: "SIL (Safety Integrity Level 1-4): IEC 61508 reliability standard for safety functions; TRITON compromising SIS invalidated SIL certification — safety function can no longer be trusted to respond correctly"
+      table1_ref: "C2.3"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q92"
+      text: "Which CyberKG-CPS Consequence node has realized=false and what does this indicate?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S10"
+      answer_hint: "CON-EXP (Explosion Risk, TRITON) has realized=false — the potential catastrophic explosion was AVERTED when TRITON's own bug caused accidental SIS fail-safe trip"
+      table1_ref: "C2.3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q93"
+      text: "How does CyberKG-CPS define 'confidence' and what is the minimum for documented_fact evidence class?"
+      user_role: "instructor"
+      bloom_level: "L2"
+      scenario_id: "S16"
+      answer_hint: "confidence: float 0.0-1.0 representing certainty of node data accuracy; documented_fact minimum = 0.8 per granularity.py MIN_CONFIDENCE"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q94"
+      text: "What 3 CWE weaknesses are associated with Stuxnet's 4 Windows zero-days?"
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S07"
+      answer_hint: "CWE-20 (input validation → CVE-2568), CWE-264 (permissions → CVE-2743), CWE-287 (authentication → CVE-2729), CWE-89 (SQL injection → CVE-2772) — 4 CVEs / 4 CWEs"
+      table1_ref: "C1.3"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q95"
+      text: "What is the AI_INVOLVED_IN relationship and what does role='hypothetical_defender' mean?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S08"
+      answer_hint: "AI_INVOLVED_IN: connects AI_Component to Attack; role='hypothetical_defender' = the AI wasn't present in the real attack but COULD have detected or prevented it (instructional extension)"
+      table1_ref: "C3.1"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q96"
+      text: "Write the MAPS_TO_CONCEPT relationship query to find which bridge mechanism relates to C1.3 Air-Gap Bypassing."
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S09b"
+      answer_hint: "MATCH (b:Bridge_Mechanism)-[:MAPS_TO_CONCEPT]->(ic:Instructional_Concept {concept_id:'IC-C13'}) RETURN b.name, b.bridge_id"
+      table1_ref: "C1.3"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q97"
+      text: "What physical_process type does each of the 4 CyberKG-CPS cases target?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S12"
+      answer_hint: "Stuxnet=nuclear (centrifuges), TRITON=chemical (petrochemical SIS), Colonial=pipeline (fuel distribution), GSM=steel (blast furnace)"
+      table1_ref: "C2.1,C2.2,C2.3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q98"
+      text: "How does the PERFORMS_ACTION relationship differ from HUMAN_ROLE in the CyberKG-CPS ontology?"
+      user_role: "instructor"
+      bloom_level: "L3"
+      scenario_id: "S15"
+      answer_hint: "PERFORMS_ACTION: Human_Actor → Human_Action (what they did); HUMAN_ROLE: Human_Actor → Attack (their strategic role: attacker/defender/victim)"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q99"
+      text: "Evaluate: Is an air-gap an absolute security control? Use Stuxnet as evidence."
+      user_role: "security_researcher"
+      bloom_level: "L5"
+      scenario_id: "S02"
+      answer_hint: "No — Stuxnet demonstrated air-gaps are only as strong as their physical implementation; USB vectors bypass electronic isolation; physical access policy is critical component of air-gap security"
+      table1_ref: "C1.3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q100"
+      text: "What does C4.2 Error Propagation mean for an AI-based safety alarm system?"
+      user_role: "instructor"
+      bloom_level: "L5"
+      scenario_id: "S20"
+      answer_hint: "AI false alarm causes operator alarm fatigue → real safety event masked → physical consequence; or AI false positive triggers emergency shutdown of non-threatened system"
+      table1_ref: "C4.2"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q101"
+      text: "What would a comprehensive defense-in-depth strategy against the German Steel Mill attack look like?"
+      user_role: "security_researcher"
+      bloom_level: "L6"
+      scenario_id: "S13"
+      answer_hint: "Email filtering + phishing awareness; network segmentation (IT-OT zones); application allowlisting on HMI/DCS; OT protocol anomaly detection; asset inventory with change management on DCS configurations"
+      table1_ref: "C1.4"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q102"
+      text: "Identify the tactic taxonomy for T1078, T1021, and T1486 (all Colonial Pipeline techniques)."
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S06"
+      answer_hint: "T1078=initial-access, T1021=lateral-movement, T1486=impact — following the attack kill chain progression"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q103"
+      text: "What evidence_class would a node representing 'Colonial Pipeline used AI anomaly detection in 2021' receive?"
+      user_role: "instructor"
+      bloom_level: "L3"
+      scenario_id: "S16"
+      answer_hint: "instructional_extension with confidence=0.0 — there is no documented evidence Colonial had AI anomaly detection; this would be a hypothetical defender scenario"
+      table1_ref: "C3.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q104"
+      text: "What is the CONSEQUENCE_TYPE relationship and which two entities does it connect?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S10"
+      answer_hint: "CONSEQUENCE_TYPE: Consequence → Instructional_Concept; maps attack outcomes to educational concepts (e.g., CON-CENT → IC-C21 Direct Manipulation)"
+      table1_ref: "C2.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q105"
+      text: "Compare the actor_type values across the 4 Human_Actor nodes in CyberKG-CPS."
+      user_role: "instructor"
+      bloom_level: "L3"
+      scenario_id: "S14"
+      answer_hint: "HUM-NAT=operator (Stuxnet), HUM-SIS=engineer (TRITON), HUM-COL=manager (Colonial), HUM-GSM=operator (GSM) — represents the range of human roles affected"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q106"
+      text: "What is the LOCATED_IN relationship used for in CyberKG-CPS?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S15"
+      answer_hint: "LOCATED_IN: connects IT_System or OT_System to their Network_Zone — places devices within the Purdue hierarchy"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q107"
+      text: "Which network zones appear in ALL four attack cases?"
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S11"
+      answer_hint: "NZ-INET (Internet) and NZ-CORP (Enterprise Network) — both appear in all 4 cases as initial access and lateral movement zones"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q108"
+      text: "What is the Mandiant/FireEye TRITON report and why is it the primary source for the TRITON case?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S03"
+      answer_hint: "Mandiant (formerly FireEye) incident response report (Dec 2017) — first public technical analysis of TRITON malware; primary source because they investigated the actual incident"
+      table1_ref: "C1.2"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q109"
+      text: "What is the AI_Component 'component_type' for AIC-COL and why was intrusion_detection chosen?"
+      user_role: "instructor"
+      bloom_level: "L3"
+      scenario_id: "S08"
+      answer_hint: "AIC-COL component_type=intrusion_detection; chosen because Colonial's attack was IT-layer (DarkSide lateral movement) — an IDS would detect lateral movement patterns, not physical process anomalies"
+      table1_ref: "C3.1"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q110"
+      text: "Define 'cyber-physical system' (CPS) and explain how it differs from pure IT systems."
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S15"
+      answer_hint: "CPS: integrated computational + physical components with feedback loops; e.g., SCADA controlling a physical pipeline. Unlike IT: attacks on CPS can cause direct physical-world consequences (equipment damage, human safety risks)"
+      table1_ref: "C2.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q111"
+      text: "Why does the CyberKG-CPS ontology have 4 AI_Attack_Surface nodes that appear in all 4 attack cases?"
+      user_role: "instructor"
+      bloom_level: "L4"
+      scenario_id: "S08"
+      answer_hint: "AIS-PI, AIS-DT, AIS-EP are cross-cutting AI vulnerabilities applicable to any ICS case with AI monitoring; AIS-PP applies to 3 cases (not Colonial where no physical sensor manipulation occurred)"
+      table1_ref: "C3.1,C3.2,C4.1,C4.2"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q112"
+      text: "What is the Siemens Step 7 software and what role did it play in Stuxnet?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S02"
+      answer_hint: "Step 7: Siemens SCADA/PLC programming software; Stuxnet infected Step 7 project files to inject malicious code blocks (OB35/DB89) into S7-315 PLC programs when engineers deployed configurations"
+      table1_ref: "C1.3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q113"
+      text: "Analyze: What common security failure is shared by both Colonial Pipeline (VPN/MFA) and German Steel Mill (flat network)?"
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S13"
+      answer_hint: "Both represent failures in network access control — Colonial: insufficient authentication on existing access channel; GSM: insufficient segmentation preventing lateral movement; both are C1 (IT/OT transition) failures"
+      table1_ref: "C1.1,C1.4"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q114"
+      text: "What is the purpose of the ROOT_CAUSE relationship and construct an example."
+      user_role: "student"
+      bloom_level: "L3"
+      scenario_id: "S15"
+      answer_hint: "ROOT_CAUSE: Vulnerability → Weakness (underlying design flaw); example: (CVE-2010-2568)-[:ROOT_CAUSE]->(CWE-20) — the LNK zero-day's root cause is improper input validation"
+      table1_ref: "C1.3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q115"
+      text: "Evaluate the ethical implications of the Stuxnet attack from a cyberwarfare perspective."
+      user_role: "instructor"
+      bloom_level: "L5"
+      scenario_id: "S02"
+      answer_hint: "State-sponsored attack on civilian industrial infrastructure; set precedent for cyber operations targeting physical systems; raised questions about proportionality, disclosure, and unintended proliferation (Stuxnet escaped Natanz)"
+      table1_ref: "C2.1"
+      evidence_class: "documented_fact"
+      confidence: 0.85
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q116"
+      text: "How does a 'classifier' AI_Component differ from an 'anomaly_detector' in CPS security context?"
+      user_role: "security_researcher"
+      bloom_level: "L3"
+      scenario_id: "S08"
+      answer_hint: "classifier: categorizes network traffic or events into known classes (e.g., benign/malicious); anomaly_detector: identifies deviations from baseline without predefined classes — better for novel ICS attacks"
+      table1_ref: "C3.1"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q117"
+      text: "What does the 'realized' field on Consequence nodes represent and give an example of each value."
+      user_role: "instructor"
+      bloom_level: "L2"
+      scenario_id: "S10"
+      answer_hint: "realized=true: consequence actually occurred (CON-CENT: centrifuges destroyed); realized=false: intended consequence averted (CON-EXP: explosion prevented by accidental SIS trip)"
+      table1_ref: "C2.3"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q118"
+      text: "What is the Neo4j community vs enterprise distinction for CyberKG-CPS constraints?"
+      user_role: "security_researcher"
+      bloom_level: "L2"
+      scenario_id: "S19"
+      answer_hint: "CYB-14 §VI: property existence constraints (REQUIRE field IS NOT NULL) are Enterprise-only; CyberKG-CPS uses Community-compatible unique constraints instead; existence constraints are commented out in CYB-14.cypher"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q119"
+      text: "Design a curriculum lesson plan for Module M2 (Physical Consequences) that uses all 4 attack cases."
+      user_role: "instructor"
+      bloom_level: "L6"
+      scenario_id: "S20"
+      answer_hint: "Lesson structure: intro 4 consequence types → Stuxnet (direct_manipulation) case study → Colonial (indirect_disruption) case study → TRITON (safety_suppression) case study → Stuxnet again (manipulation_of_view) → comparative analysis"
+      table1_ref: "C2.1,C2.2,C2.3,C2.4"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q120"
+      text: "What is the EXPLOITS relationship and which entity types does it connect?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S15"
+      answer_hint: "EXPLOITS: ATT&CK_Technique → Vulnerability; represents which CVE vulnerabilities a technique leverages"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q121"
+      text: "Why is CWE abstraction level 'Base' preferred over 'Class' or 'Pillar' in CyberKG-CPS annotations?"
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S16"
+      answer_hint: "Base-level CWEs are actionable (specific enough for mitigation) but not overly specific (Variant); Class/Pillar too broad for attack analysis; CYB-17 Annotation Guidelines specify Base preference (granularity.py MAX_ABSTRACTION_LEVEL)"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 0.95
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q122"
+      text: "Which attack case is the only one classified as non-nation-state (nation_state=false) in CyberKG-CPS?"
+      user_role: "student"
+      bloom_level: "L1"
+      scenario_id: "S18"
+      answer_hint: "German Steel Mill (ATK-GSM-001, nation_state=false) and Colonial Pipeline (ATK-COL-001, nation_state=false) — both are criminal (non-state-sponsored) attacks; Stuxnet and TRITON are nation-state"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q123"
+      text: "What Cypher query returns the complete attack kill chain for Stuxnet in step order?"
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S09b"
+      answer_hint: "MATCH (a:Attack {attack_id:'ATK-STX-001'})-[r:USES_TECHNIQUE]->(t) RETURN t.mitre_id, t.name, r.step_order ORDER BY r.step_order"
+      table1_ref: "C1.3"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q124"
+      text: "What ICS security standard is referenced by the NZ (Network Zone) Purdue Level model?"
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S11"
+      answer_hint: "IEC 62443 (ISA/IEC 62443): Industrial Automation and Control System (IACS) security standard; Purdue Reference Model is foundational to IEC 62443 zone/conduit concept"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q125"
+      text: "Explain how 'error propagation' (C4.2) could cause secondary physical harm in a nuclear enrichment facility."
+      user_role: "instructor"
+      bloom_level: "L5"
+      scenario_id: "S08"
+      answer_hint: "AI anomaly detector false positive → automated emergency shutdown of centrifuges → pressure differential damage; or: AI false negative misses real anomaly → physical failure goes undetected. Both represent error propagation causing physical harm."
+      table1_ref: "C4.2"
+      evidence_class: "instructional_extension"
+      confidence: 0.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q126"
+      text: "What would change in the CyberKG-CPS graph if T0831 were loaded only from Stuxnet's YAML (not GSM's)?"
+      user_role: "security_researcher"
+      bloom_level: "L4"
+      scenario_id: "S21"
+      answer_hint: "GSM would have no USES_TECHNIQUE→T0831 relationship; the ATT&CK technique node would exist (from Stuxnet), but the semantic connection between German Steel Mill and Manipulation of Control would be lost — breaking comparative analysis queries"
+      table1_ref: "C1.3,C1.4"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q127"
+      text: "What is the MAPS_TO_PATTERN relationship and give an example from CyberKG-CPS."
+      user_role: "student"
+      bloom_level: "L2"
+      scenario_id: "S15"
+      answer_hint: "MAPS_TO_PATTERN: connects Weakness or Attack to Attack_Pattern (CAPEC); example: (CWE-20)-[:MAPS_TO_PATTERN]->(CAPEC-210) or (ATK-COL-001)-[:MAPS_TO_PATTERN]->(CAPEC-560)"
+      table1_ref: "C1.1"
+      evidence_class: "documented_fact"
+      confidence: 1.0
+      license: "CYB-17 v1.1"
+
+    - question_id: "Q128"
+      text: "Create a comprehensive incident response checklist for an ICS operator using the 4 CyberKG-CPS cases as reference scenarios."
+      user_role: "instructor"
+      bloom_level: "L6"
+      scenario_id: "S21"
+      answer_hint: "Checklist: 1) Verify sensor data integrity (Stuxnet lesson); 2) Check SIS key-switch position (TRITON lesson); 3) Isolate IT from OT proactively if ransomware detected (Colonial lesson); 4) Audit flat network access paths (GSM lesson); 5) Review AI anomaly alerts critically (C4.2 lesson)"
+      table1_ref: "C1.1,C1.2,C1.3,C1.4,C2.1,C2.2,C2.3,C2.4"
+      evidence_class: "documented_fact"
+      confidence: 0.9
+      license: "CYB-17 v1.1"

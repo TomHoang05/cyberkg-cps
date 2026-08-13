@@ -1,0 +1,351 @@
+# data/kg_data/triton/triton_relationships.yaml
+# TRITON — all relationships
+
+relationships:
+
+  # Attack → Techniques
+  - from_type: "Attack"
+    from_id: "ATK-TRI-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T1566.001"
+    properties:
+      step_order: 1
+      phase: "initial-access"
+      evidence_class: "documented_fact"
+
+  - from_type: "Attack"
+    from_id: "ATK-TRI-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0822"
+    properties:
+      step_order: 2
+      phase: "initial-access"
+      evidence_class: "supported_inference"
+
+  - from_type: "Attack"
+    from_id: "ATK-TRI-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0864"
+    properties:
+      step_order: 3
+      phase: "lateral-movement"
+      evidence_class: "documented_fact"
+
+  - from_type: "Attack"
+    from_id: "ATK-TRI-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0886"
+    properties:
+      step_order: 4
+      phase: "execution"
+      evidence_class: "documented_fact"
+
+  - from_type: "Attack"
+    from_id: "ATK-TRI-001"
+    type: "USES_TECHNIQUE"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0880"
+    properties:
+      step_order: 5
+      phase: "impact"
+      evidence_class: "documented_fact"
+
+  # Technique ordering
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1566.001"
+    type: "TECHNIQUE_ORDER"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0822"
+    properties:
+      step_order: 1
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0822"
+    type: "TECHNIQUE_ORDER"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0864"
+    properties:
+      step_order: 2
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0864"
+    type: "TECHNIQUE_ORDER"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0886"
+    properties:
+      step_order: 3
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0886"
+    type: "TECHNIQUE_ORDER"
+    to_type: "ATT_CK_Technique"
+    to_id: "T0880"
+    properties:
+      step_order: 4
+
+  # Vulnerability chain
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0886"
+    type: "EXPLOITS"
+    to_type: "Vulnerability"
+    to_id: "CVE-2018-7522"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0886"
+    type: "EXPLOITS"
+    to_type: "Vulnerability"
+    to_id: "CVE-2018-10952"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Vulnerability"
+    from_id: "CVE-2018-7522"
+    type: "ROOT_CAUSE"
+    to_type: "Weakness"
+    to_id: "CWE-122"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Vulnerability"
+    from_id: "CVE-2018-10952"
+    type: "ROOT_CAUSE"
+    to_type: "Weakness"
+    to_id: "CWE-306"
+    properties:
+      evidence_class: "documented_fact"
+
+  # CWE → CAPEC
+  - from_type: "Weakness"
+    from_id: "CWE-122"
+    type: "MAPS_TO_PATTERN"
+    to_type: "Attack_Pattern"
+    to_id: "CAPEC-186"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Weakness"
+    from_id: "CWE-306"
+    type: "MAPS_TO_PATTERN"
+    to_type: "Attack_Pattern"
+    to_id: "CAPEC-440"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Weakness"
+    from_id: "CWE-306"
+    type: "MAPS_TO_PATTERN"
+    to_type: "Attack_Pattern"
+    to_id: "CAPEC-25"
+    properties:
+      evidence_class: "instructional_extension"
+
+  # Targets
+  - from_type: "ATT_CK_Technique"
+    from_id: "T1566.001"
+    type: "TARGETS"
+    to_type: "IT_System"
+    to_id: "ITS-EMAIL"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0886"
+    type: "TARGETS"
+    to_type: "OT_System"
+    to_id: "OTS-SIS"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0822"
+    type: "TARGETS"
+    to_type: "IT_System"
+    to_id: "ITS-EWS"
+    properties:
+      evidence_class: "supported_inference"
+
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0864"
+    type: "TARGETS"
+    to_type: "OT_System"
+    to_id: "OTS-EWS"
+    properties:
+      evidence_class: "documented_fact"
+
+  # Network Zone locations
+  - from_type: "IT_System"
+    from_id: "ITS-EWS"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-CORP"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "OT_System"
+    from_id: "OTS-EWS"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-CTRL"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "OT_System"
+    from_id: "OTS-SIS"
+    type: "LOCATED_IN"
+    to_type: "Network_Zone"
+    to_id: "NZ-FIELD"
+    properties:
+      evidence_class: "documented_fact"
+
+  # Bridge
+  - from_type: "Attack"
+    from_id: "ATK-TRI-001"
+    type: "USES_BRIDGE"
+    to_type: "Bridge_Mechanism"
+    to_id: "BRG-EWS"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Bridge_Mechanism"
+    from_id: "BRG-EWS"
+    type: "BRIDGES_TO"
+    to_type: "Network_Zone"
+    to_id: "NZ-CORP"
+    properties:
+      side: "it_side"
+
+  - from_type: "Bridge_Mechanism"
+    from_id: "BRG-EWS"
+    type: "BRIDGES_TO"
+    to_type: "Network_Zone"
+    to_id: "NZ-FIELD"
+    properties:
+      side: "ot_side"
+
+  # Physical
+  - from_type: "OT_System"
+    from_id: "OTS-SIS"
+    type: "AFFECTS_PROCESS"
+    to_type: "Physical_Process"
+    to_id: "PHY-PET"
+    properties:
+      evidence_class: "documented_fact"
+
+  # Consequences
+  - from_type: "Attack"
+    from_id: "ATK-TRI-001"
+    type: "CAUSES_CONSEQUENCE"
+    to_type: "Consequence"
+    to_id: "CON-EXP"
+    properties:
+      direct: false
+      realized: false
+      evidence_class: "documented_fact"
+
+  - from_type: "Consequence"
+    from_id: "CON-EXP"
+    type: "CONSEQUENCE_TYPE"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C23"
+    properties:
+      evidence_class: "documented_fact"
+
+  # Bridge → Instructional Concept
+  - from_type: "Bridge_Mechanism"
+    from_id: "BRG-EWS"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C12"
+    properties:
+      evidence_class: "documented_fact"
+
+  # Technique → Instructional Concept (Triton-only techniques)
+  # C1.2 Unauthorized Bridges: remote services pivot through dual-homed EWS
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0822"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C12"
+    properties:
+      mapping_rationale: "External Remote Services pivoted through dual-homed EWS into safety network; teaches C1.2"
+      evidence_class: "supported_inference"
+
+  # C1.3 Air-Gap Bypassing: EWS used as transient asset crossing network isolation
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0864"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C13"
+    properties:
+      mapping_rationale: "EWS used as transient cyber asset bridging IT network and SIS field zone; teaches C1.3"
+      evidence_class: "documented_fact"
+
+  # C2.3 Safety Suppression: SIS exploitation disables autonomous safety shutdown
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0886"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C23"
+    properties:
+      mapping_rationale: "Exploitation of SIS remote services directly attacked safety system availability; teaches C2.3"
+      evidence_class: "documented_fact"
+
+  # C2.3 Safety Suppression: firmware update mode corrupted Triconex SIS logic
+  - from_type: "ATT_CK_Technique"
+    from_id: "T0880"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C23"
+    properties:
+      mapping_rationale: "Activating firmware update mode corrupted Triconex SIS, suppressing safety response; teaches C2.3"
+      evidence_class: "documented_fact"
+
+  # AI
+  - from_type: "AI_Component"
+    from_id: "AIC-TRI"
+    type: "AI_INVOLVED_IN"
+    to_type: "Attack"
+    to_id: "ATK-TRI-001"
+    properties:
+      role: "hypothetical_defender"
+      evidence_class: "instructional_extension"
+
+  - from_type: "AI_Attack_Surface"
+    from_id: "AIS-PP"
+    type: "AI_ATTACK_VIA"
+    to_type: "AI_Component"
+    to_id: "AIC-TRI"
+    properties:
+      evidence_class: "instructional_extension"
+
+  - from_type: "AI_Attack_Surface"
+    from_id: "AIS-PP"
+    type: "MAPS_TO_CONCEPT"
+    to_type: "Instructional_Concept"
+    to_id: "IC-C32"
+    properties:
+      evidence_class: "instructional_extension"
+
+  # Human
+  - from_type: "Human_Actor"
+    from_id: "HUM-SIS"
+    type: "PERFORMS_ACTION"
+    to_type: "Human_Action"
+    to_id: "ACT-SIS"
+    properties:
+      evidence_class: "documented_fact"
+
+  - from_type: "Human_Actor"
+    from_id: "HUM-SIS"
+    type: "HUMAN_ROLE"
+    to_type: "Attack"
+    to_id: "ATK-TRI-001"
+    properties:
+      role_type: "defender"
+      evidence_class: "documented_fact"
