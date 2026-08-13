@@ -2,6 +2,15 @@
 line-length = 120
 
 [tool.ruff.lint]
-# E701/E702: semicolons / multiple statements on one line — intentional compact
-# style in Pydantic enum/model definitions in responses.py.
+# Only check pycodestyle (E) and pyflakes (F) rules.
+# Excludes isort (I), pyupgrade (UP), flake8-bugbear (B), flake8-blind-except (BLE),
+# flake8-simplify (SIM), flake8-bandit (S), and ruff-specific (RUF) rules — many of
+# which flag intentional patterns (FastAPI Depends(), Pydantic Config, broad catches).
+select = ["E", "F"]
+# E701/E702: intentional compact style in Pydantic enum/model definitions.
 ignore = ["E701", "E702"]
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: requires a live Neo4j instance with data loaded (deselect with '-m not integration')",
+]

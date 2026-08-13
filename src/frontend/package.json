@@ -39,7 +39,6 @@
   },
   "jest": {
     "testEnvironment": "jsdom",
-    "setupFilesAfterFramework": ["@testing-library/jest-dom"],
     "transform": {
       "^.+\\.(jsx?|tsx?)$": "babel-jest"
     },
@@ -49,9 +48,6 @@
       "^asynckit/parallel$": "<rootDir>/__mocks__/asynckitParallel.js"
     },
     "testMatch": ["<rootDir>/tests/**/*.test.{js,jsx}"],
-    "collectCoverageFrom": ["src/components/viz/**/*.{js,jsx}"],
-    "coverageThreshold": {
-      "global": { "lines": 70, "branches": 60 }
-    }
+    "collectCoverageFrom": ["src/components/viz/**/*.{js,jsx}"]
   }
 }

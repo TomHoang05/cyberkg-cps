@@ -18,7 +18,7 @@ const chain = () => {
     stop: noop, tick: noop,
     // zoom / drag
     scaleExtent: () => obj, translateExtent: () => obj,
-    transform: obj,
+    transform: () => obj,
     // scale
     domain: () => obj, range: () => obj, padding: () => obj,
     // transition
